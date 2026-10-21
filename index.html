@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TorqueLab | Performance Parts</title>
+<style>
+:root {
+  --bg: #f4f8f5;
+  --panel: #ffffff;
+  --panel2: #eaf3ec;
+  --line: #d2e4d6;
+  --text: #1b2e21;
+  --muted: #5a7562;
+  --green-primary: #1e6b3e;
+  --green-accent: #2e9b58;
+  --green-light: #e3f2e7;
+  --green-soft: #c8e6d0;
+  --blue: #0284c7;
+  --red: #dc2626;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 18px rgba(30, 107, 62, 0.08);
+}
+.bangla-kb {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #eaf3ec;
+  border: 1px solid var(--line);
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 8px;
+  max-width: 100%;
+}
+.kb-mode-select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--green-primary);
+}
+.kb-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.kb-btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  min-width: 32px;
+  text-align: center;
+  transition: background 0.15s;
+}
+.kb-btn:hover {
+  background: var(--green-light);
+  border-color: var(--green-primary);
+}
+.kb-btn.space {
+  flex-grow: 1;
+  max-width: 200px;
+}
+.kb-btn.action {
+  background: #dbebe0;
+  font-size: 12px;
+}
+.kb-toggle-btn {
+  background: var(--green-light);
+  color: var(--green-primary);
+  border: 1px solid var(--green-soft);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: auto;
+  cursor: pointer;
+  font-weight: 700;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(circle at 80% -10%, #dcf0e2 0%, var(--bg) 55%);
+  color: var(--text);
+  font: 15px/1.5 'Plus Jakarta Sans', Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; touch-action: manipulation; }
+
+/* Top Contact Bar */
+.contact-bar {
+  background: #123d24;
+  color: #e3f2e7;
+  font-size: 12px;
+  padding: 6px clamp(14px, 4vw, 70px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.contact-links {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.contact-links a {
+  color: #a3e6b5;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.2s;
+}
+.contact-links a:hover { opacity: 0.8; text-decoration: underline; }
+
+.topbar {
+  height: 72px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(14px, 4vw, 70px);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.brand { display: flex; gap: 10px; align-items: center; font-weight: 850; letter-spacing: .08em; min-width: 0; }
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--green-primary);
+  background: var(--green-light);
+  display: grid;
+  place-items: center;
+  transform: skew(-9deg);
+  color: var(--green-primary);
+  font-weight: 950;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+.brand small { display: block; color: var(--muted); letter-spacing: .18em; font-size: 9px; }
+.nav { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.btn {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--text);
+  padding: 9px 15px;
+  font-weight: 700;
+  transition: .2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  touch-action: manipulation;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.btn:hover { border-color: var(--green-accent); color: var(--green-primary); transform: translateY(-1px); }
+.btn.primary { background: var(--green-primary); border-color: var(--green-primary); color: white; }
+.btn.primary:hover { background: #16522f; border-color: #16522f; color: white; }
+.btn.wa { background: #25d366; border-color: #25d366; color: white; }
+.btn.wa:hover { background: #1eb957; color: white; }
+.btn.ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.user-badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--green-light);
+  color: var(--green-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.wrap { max-width: 1280px; margin: auto; padding: 24px clamp(12px, 3vw, 54px) 70px; }
+.hero {
+  min-height: 240px;
+  padding: clamp(24px, 4vw, 42px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(125deg, #ffffff 10%, #eaf5ed 70%, #d4ebda 100%);
+  box-shadow: var(--shadow);
+}
+.hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(132deg, transparent 0 12px, rgba(30, 107, 62, 0.03) 13px 15px);
+  pointer-events: none;
+}
+.eyebrow { font-size: 11px; letter-spacing: .23em; text-transform: uppercase; color: var(--green-primary); font-weight: 800; }
+.hero h1 { font-size: clamp(28px, 5vw, 56px); line-height: 1.05; letter-spacing: -.04em; margin: 10px 0; color: #0d2113; }
+.hero p { color: var(--muted); max-width: 530px; margin: 0 0 20px; font-size: clamp(13px, 2vw, 15px); }
+.hero-art { font-size: clamp(60px, 10vw, 155px); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12)); transform: rotate(-13deg); opacity: .9; user-select: none; }
+
+.contact-quick-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.contact-chip:hover { border-color: var(--green-primary); color: var(--green-primary); }
+
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 28px 0 18px; flex-wrap: wrap; }
+.section-head h2 { font-size: clamp(20px, 3vw, 24px); margin: 0; letter-spacing: -.03em; color: #0d2113; }
+.section-head p { color: var(--muted); margin: 4px 0 0; font-size: 13px; }
+
+.filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.chip {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--muted);
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 750;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  transition: .2s;
+}
+.chip.active { background: var(--green-primary); border-color: var(--green-primary); color: #ffffff; }
+
+.search {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  padding: 9px 13px;
+  border-radius: 10px;
+  width: min(320px, 100%);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.search input { border: 0; outline: 0; color: var(--text); background: transparent; width: 100%; }
+
+.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.card {
+  border: 1px solid var(--line);
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: .25s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+}
+.card:hover { transform: translateY(-4px); border-color: var(--green-soft); box-shadow: 0 10px 25px rgba(30, 107, 62, 0.12); }
+.viewer {
+  height: 210px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #ffffff 0%, #eef6f0 80%);
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
+  border-bottom: 1px solid #eef4f0;
+}
+.viewer:active { cursor: grabbing; }
+.viewer:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(30, 107, 62, 0.02) 9px 11px);
+}
+.part-visual {
+  font-size: 92px;
+  filter: drop-shadow(4px 10px 12px rgba(0,0,0,0.12));
+  user-select: none;
+  transition: transform .16s ease-out;
+  transform: perspective(500px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.view-hint { position: absolute; bottom: 8px; left: 10px; color: var(--muted); font-size: 9px; letter-spacing: .08em; pointer-events: none; font-weight: 600; }
+.stock {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border: 1px solid #a3e6b5;
+  color: var(--green-primary);
+  background: #eaf8ed;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.stock.low { border-color: #fde68a; color: #b45309; background: #fffbe8; }
+
+.card-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+.meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+.card h3 { font-size: 17px; margin: 8px 0 5px; color: #0d2113; }
+.desc { font-size: 12px; color: var(--muted); min-height: 36px; line-height: 1.45; }
+.compat { font-size: 11px; color: var(--green-primary); font-weight: 600; margin: 10px 0; word-break: break-word; background: var(--green-light); padding: 4px 8px; border-radius: 6px; display: inline-block; }
+.card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 12px; margin-top: auto; }
+.price { font-weight: 850; font-size: 19px; color: var(--green-primary); }
+.price small { font-size: 10px; color: var(--muted); font-weight: 500; }
+.card-actions { display: flex; gap: 7px; }
+.card-actions .btn { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.empty { grid-column: 1/-1; text-align: center; padding: 45px 20px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); background: #ffffff; }
+
+/* Overlay & Modals */
+.overlay { position: fixed; inset: 0; background: rgba(13, 33, 19, 0.45); backdrop-filter: blur(4px); z-index: 20; display: none; align-items: center; justify-content: center; padding: 12px; overflow-y: auto; }
+.overlay.show { display: flex; }
+.modal { width: min(820px, 100%); max-height: 90vh; overflow-y: auto; border: 1px solid var(--line); border-radius: 18px; background: #ffffff; box-shadow: 0 25px 60px rgba(0,0,0,0.15); margin: auto; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 16px 20px; position: sticky; top: 0; background: #ffffff; z-index: 2; }
+.modal-head h2 { margin: 0; font-size: 18px; color: #0d2113; }
+.modal-body { padding: 20px; }
+
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+.tab { border: 1px solid var(--line); padding: 8px 14px; border-radius: 8px; background: #f4f8f5; color: var(--muted); font-size: 12px; font-weight: 750; white-space: nowrap; flex-shrink: 0; }
+.tab.active { color: white; border-color: var(--green-primary); background: var(--green-primary); }
+.pane { display: none; }
+.pane.active { display: block; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.full { grid-column: 1/-1; }
+.field label { font-size: 11px; color: var(--muted); font-weight: 700; }
+.field input, .field select, .field textarea { border: 1px solid var(--line); border-radius: 8px; background: #f9fbf9; color: var(--text); padding: 10px 11px; outline: 0; font-size: 14px; }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--green-primary); background: #ffffff; }
+.field textarea { min-height: 80px; resize: vertical; }
+.hint { font-size: 10px; color: var(--muted); }
+
+.modal-foot { padding: 14px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; align-items: center; background: #f9fbf9; }
+
+.product-list { display: grid; gap: 8px; }
+.product-row { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; flex-wrap: wrap; }
+.row-icon { font-size: 24px; flex-shrink: 0; }
+.row-info { flex: 1; min-width: 140px; }
+.row-info strong { display: block; font-size: 13px; color: #0d2113; }
+.row-info small { color: var(--muted); word-break: break-word; }
+.tiny { padding: 6px 10px; font-size: 11px; min-height: 32px; }
+.danger { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
+
+.range-row { display: grid; grid-template-columns: 1fr 65px; align-items: center; gap: 12px; }
+.range-row input { width: 100%; accent-color: var(--green-primary); }
+.range-row output { font-size: 12px; color: var(--green-primary); font-weight: 700; text-align: right; }
+
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); gap: 10px; }
+.toggle { appearance: none; width: 42px; height: 24px; border-radius: 20px; background: #cbd5e1; position: relative; cursor: pointer; transition: .2s; flex-shrink: 0; }
+.toggle:before { content: ""; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; border-radius: 50%; background: white; transition: .2s; }
+.toggle:checked { background: var(--green-primary); }
+.toggle:checked:before { left: 21px; }
+
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 18px); opacity: 0; z-index: 40; background: #123d24; border: 1px solid #2e9b58; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; transition: .25s; pointer-events: none; max-width: 90vw; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+.footer { border-top: 1px solid var(--line); padding: 24px 16px; text-align: center; color: var(--muted); font-size: 12px; background: #ffffff; }
+.footer-contacts { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; font-weight: 600; }
+.footer-contacts a { color: var(--green-primary); text-decoration: none; }
+
+.brand-preview { width: 48px; height: 48px; object-fit: contain; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; padding: 3px; flex-shrink: 0; }
+.compat-filter { max-width: 170px; }
+.notice { color: var(--muted); font-size: 12px; margin: 0 0 15px; }
+
+/* Inquire Modal & Auth */
+.detail-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+.detail-viewer { height: 300px; border-radius: 14px; border: 1px solid var(--line); background: radial-gradient(circle at center, #ffffff 0%, #eaf5ed 100%); }
+.detail-viewer .part-visual { font-size: 110px; }
+.detail-info { display: flex; flex-direction: column; gap: 12px; }
+.detail-badge { display: inline-block; padding: 4px 10px; border-radius: 14px; background: var(--green-light); color: var(--green-primary); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+.detail-price { font-size: 26px; font-weight: 900; color: var(--green-primary); }
+.spec-box { background: #f9fbf9; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; }
+.spec-box div small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; font-weight: 700; }
+.auth-box { max-width: 380px; margin: auto; padding: 10px 0; width: 100%; }
+
+.action-buttons { display: flex; flex-direction: column; gap: 8px; }
+
+@media(max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width: 768px) {
+  .topbar { height: 64px; padding: 0 14px; }
+  .contact-bar { text-align: center; justify-content: center; }
+  .brand small { display: none; }
+  .hero { padding: 24px; min-height: 220px; }
+  .hero-art { opacity: .35; position: absolute; right: 10px; top: 50%; transform: translateY(-50%) rotate(-13deg); font-size: 100px; }
+  .hero-copy { position: relative; z-index: 1; }
+  .section-head { align-items: start; flex-direction: column; gap: 10px; }
+  .search { width: 100%; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-viewer { height: 220px; }
+}
+@media(max-width: 560px) {
+  .topbar { height: 60px; padding: 0 12px; }
+  .brand-mark { width: 34px; height: 34px; font-size: 14px; }
+  .nav .btn { padding: 7px 10px; font-size: 11px; min-height: 36px; }
+  .user-badge { display: none; }
+  .wrap { padding-top: 14px; padding-bottom: 50px; }
+  .hero { padding: 18px; }
+  .hero h1 { font-size: 26px; }
+  .hero p { font-size: 12px; margin-bottom: 14px; }
+  .product-grid { grid-template-columns: 1fr; gap: 14px; }
+  .viewer { height: 200px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .field.full { grid-column: auto; }
+  .modal { max-height: 94vh; }
+  .modal-body { padding: 14px; }
+  .modal-head, .modal-foot { padding: 12px 14px; }
+  .compat-filter { max-width: none; width: 100%; }
+  .card-actions .btn { padding: 8px 10px; }
+  .card h3 { font-size: 16px; }
+  .detail-viewer { height: 200px; }
+  .detail-viewer .part-visual { font-size: 80px; }
+  .spec-box { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<!-- Top Direct Contact Header -->
+<div class="contact-bar">
+  <div>📞 Order & Inquiry Hotline: <strong>01710292929</strong></div>
+  <div class="contact-links">
+    <a href="https://wa.me/8801710292929" target="_blank" rel="noopener">📱 WhatsApp</a>
+    <a href="tel:01710292929">📞 Call Now</a>
+    <a href="https://www.facebook.com/share/1GF5S5Eqcv/" target="_blank" rel="noopener">🌐 Facebook Page</a>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" id="brandMark">T</div>
+    <div><span id="brandHeader">TORQUELAB</span><small>PERFORMANCE PARTS</small></div>
+  </div>
+  <nav class="nav">
+    <div class="user-badge" id="userBadge">🔑 Visitor Mode</div>
+    <a class="btn wa" href="https://wa.me/8801710292929" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <button class="btn" id="adminOpen">⚙ Admin Control</button>
+  </nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Engineered for perfection</div>
+      <h1 id="heroName">BUILT TO<br>OUTPERFORM.</h1>
+      <p id="heroTag">Precision auto parts for drivers who expect quality. Direct phone & WhatsApp ordering supported.</p>
+      
+      <div class="contact-quick-bar">
+        <a class="contact-chip" href="tel:01710292929">📞 01710292929</a>
+        <a class="contact-chip" href="https://wa.me/8801710292929" target="_blank">📱 WhatsApp Order</a>
+        <a class="contact-chip" href="https://www.facebook.com/share/1GF5S5Eqcv/" target="_blank">🌐 Official Facebook</a>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <button class="btn primary" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Explore inventory &nbsp; →</button>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">🏎️</div>
+  </section>
+
+  <section id="catalog">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Shop the collection</div>
+        <h2>Performance inventory</h2>
+        <p>Drag products to inspect in interactive 3D view.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end; width:min(380px,100%);">
+        <div class="search">⌕ <input id="search" placeholder="Search (খুঁজুন - type 'amra' for আমরা)..." aria-label="Search products"></div>
+        <div style="display:flex; gap:6px; align-items:center; width:100%; justify-content:space-between;">
+          <select id="banglaTypingMode" class="kb-mode-select" title="Typing Mode">
+            <option value="avro">Avro (Phonetic / ফোনেটিক)</option>
+            <option value="unijoy">Bijoy / Unijoy (ইউনিজয়)</option>
+            <option value="probhat">Probhat (প্রভাত)</option>
+            <option value="english">English Only</option>
+          </select>
+          <button class="kb-toggle-btn" id="toggleGlobalKb">⌨️ বাংলা কিবোর্ড Layout</button>
+        </div>
+        <div class="bangla-kb" id="globalKb" style="display:none; width:100%;">
+          <div class="kb-row" id="kbKeyArea">
+            <!-- Dynamic layout injected by JS -->
+          </div>
+          <div class="kb-row">
+            <button class="kb-btn space" id="kbSpace">Space</button>
+            <button class="kb-btn action" id="kbBack">⌫ Backspace</button>
+            <button class="kb-btn action" id="kbClear">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div id="footerText">TORQUELAB · Precision in every part</div>
+  <div class="footer-contacts">
+    <span>📞 Phone/Order: <a href="tel:01710292929">01710292929</a></span>
+    <span>💬 WhatsApp: <a href="https://wa.me/8801710292929" target="_blank">01710292929</a></span>
+    <span>🌐 Facebook: <a href="https://www.facebook.com/share/1GF5S5Eqcv/" target="_blank">TorqueLab FB Page</a></span>
+  </div>
+</footer>
+
+<div class="overlay" id="authModal">
+  <div class="modal auth-box">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">TorqueLab Portal</div>
+        <h2>DBA Access Code Required</h2>
+      </div>
+      <button class="btn tiny" id="authClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="authForm">
+        <div class="form-grid" style="grid-template-columns: 1fr;">
+          <div class="field">
+            <label>Enter Passcode *</label>
+            <input required id="loginPass" placeholder="e.g. 5544" type="password" autocomplete="off">
+          </div>
+        </div>
+        <div style="margin-top:18px">
+          <button class="btn primary" style="width:100%" type="submit" id="authSubmitBtn">Unlock Admin Center</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="inquireModal">
+  <div class="modal" style="width:min(900px,100%)">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow" id="inqCategory">ENGINE</div>
+        <h2 id="inqTitle">Forged Alloy Turbocharger</h2>
+      </div>
+      <button class="btn tiny" id="inqClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="viewer detail-viewer" id="inqViewerContainer">
+          <div class="part-visual" id="inqVisual">⚙️</div>
+          <span class="stock" id="inqStock">In stock</span>
+          <span class="view-hint">DRAG TO ROTATE 3D MODEL · SCROLL TO ZOOM</span>
+        </div>
+        <div class="detail-info">
+          <div>
+            <span class="detail-badge" id="inqPartNum">TL-TRB-204</span>
+          </div>
+          <div class="detail-price" id="inqPrice">৳৮৫,০০০ <small style="font-size:12px;color:var(--muted)">BDT</small></div>
+          <p id="inqDesc" style="color:var(--muted);font-size:13px;margin:0">High-flow forged compressor wheel engineered for responsive boost and dependable performance.</p>
+          <div class="spec-box">
+            <div>
+              <small>Vehicle Fitment</small>
+              <strong id="inqCompat">Subaru WRX 2015–2021</strong>
+            </div>
+            <div>
+              <small>Availability</small>
+              <strong id="inqStockText">Immediate Shipping</strong>
+            </div>
+          </div>
+          
+          <div class="action-buttons" style="margin-top:auto">
+            <button class="btn wa" id="inqWaBtn" style="padding:12px;width:100%">💬 Order via WhatsApp (01710292929)</button>
+            <button class="btn primary" id="inqCallBtn" style="padding:12px;width:100%">📞 Call Now to Order (01710292929)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="adminModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">DBA Control center</div>
+        <h2>Store management</h2>
+      </div>
+      <button class="btn tiny" id="adminClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab active" data-pane="productsPane">Inventory</button>
+        <button class="tab" data-pane="companyPane">Company & brand</button>
+        <button class="tab" data-pane="effectsPane">3D effects</button>
+      </div>
+      <div class="pane active" id="productsPane">
+        <div class="section-head" style="margin:0 0 12px">
+          <div>
+            <h2 style="font-size:17px">Products</h2>
+            <p>Add and manage your catalog</p>
+          </div>
+          <button class="btn primary" id="addProduct">＋ Add product</button>
+        </div>
+        <div class="product-list" id="adminProductList"></div>
+      </div>
+      <div class="pane" id="companyPane">
+        <p class="notice">Updates are saved in this browser and appear immediately on the storefront.</p>
+        <div class="form-grid">
+          <div class="field"><label>Company name</label><input id="companyName" maxlength="40"></div>
+          <div class="field"><label>Subtitle / tagline</label><input id="companyTag" maxlength="100"></div>
+          <div class="field"><label>Contact email or phone</label><input id="companyContact" placeholder="sales@example.com"></div>
+          <div class="field">
+            <label>Brand mark (PNG/JPG)</label>
+            <div style="display:flex;gap:10px;align-items:center">
+              <img class="brand-preview" id="logoPreview" alt="Logo preview">
+              <label class="btn tiny file-label">Upload logo<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden></label>
+              <button class="btn tiny" id="removeLogo">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pane" id="effectsPane">
+        <p class="notice">Tune the interactive 3D product viewer. Drag product image to rotate; touch gestures work on phones.</p>
+        <div class="field"><label>Rotation depth</label><div class="range-row"><input type="range" id="depthRange" min="4" max="32" value="18"><output id="depthOut">18°</output></div></div>
+        <div class="field" style="margin-top:19px"><label>Auto-spin speed</label><div class="range-row"><input type="range" id="speedRange" min="0" max="8" value="2"><output id="speedOut">2</output></div></div>
+        <div class="toggle-row"><div><strong>Auto-spin</strong><div class="hint">Slowly rotate idle products</div></div><input class="toggle" id="autoSpin" type="checkbox" checked></div>
+        <div class="toggle-row"><div><strong>Enhanced depth shadow</strong><div class="hint">Add a stronger floating product effect</div></div><input class="toggle" id="deepShadow" type="checkbox" checked></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="hint">Changes are stored locally in this browser.</span>
+      <button class="btn" id="doneAdmin">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">Catalog editor</div>
+        <h2 id="editTitle">Add product</h2>
+      </div>
+      <button class="btn tiny" id="editClose">✕</button>
+    </div>
+    <form id="productForm">
+      <div class="modal-body">
+        <input type="hidden" id="productId">
+        <div class="form-grid">
+          <div class="field"><label>Part name (বাংলা/English) *</label><input required id="partName" maxlength="100"></div>
+          <div class="field"><label>Part number *</label><input required id="partNumber" maxlength="30"></div>
+          <div class="field"><label>Category</label><select id="partCategory"><option>Engine</option><option>Brakes</option><option>Suspension</option><option>Accessories</option></select></div>
+          <div class="field"><label>Price (BDT ৳) *</label><input required id="partPrice" type="number" min="0" step="1"></div>
+          <div class="field"><label>Stock status</label><select id="partStock"><option>In stock</option><option>Low stock</option><option>Out of stock</option></select></div>
+          <div class="field"><label>Compatible models (বাংলা/English)</label><input id="partCompat" placeholder="e.g. Civic 2018–2024 বা সব মডেল"></div>
+          <div class="field full"><label>Description (বাংলা/English)</label><textarea id="partDesc" maxlength="500"></textarea></div>
+          <div class="field full"><label>Product image (transparent PNG recommended)</label><input id="partImage" type="file" accept="image/png,image/jpeg,image/webp"><div class="hint">Transparent product cutouts give the best 3D result.</div></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" id="cancelEdit">Cancel</button>
+        <button class="btn primary" type="submit">Save product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const $ = id => document.getElementById(id);
+const esc = s => (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const formatBDT = amount => '৳' + Number(amount || 0).toLocaleString('bn-BD');
+
+let currentUserRole = 'visitor'; // 'visitor' or 'admin'
+let filter = 'All';
+let query = '';
+
+let settings = JSON.parse(localStorage.getItem('tl_settings') || '{}');
+if (!settings.name) {
+  settings = { name: 'TorqueLab', tag: 'Precision auto parts for drivers who expect quality.', contact: '01710292929', depth: 18, speed: 2, autoSpin: true, deepShadow: true };
+}
+
+let products = JSON.parse(localStorage.getItem('tl_products') || 'null');
+if (!products) {
+  products = [
+    { id: 'p1', name: 'Forged Alloy Turbocharger', number: 'TL-TRB-204', category: 'Engine', price: 85000, stock: 'In stock', compat: 'Subaru WRX 2015–2021', description: 'High-flow forged compressor wheel engineered for responsive boost.', icon: '⚙️' },
+    { id: 'p2', name: 'Ceramic Performance Brake Pads', number: 'TL-BRK-009', category: 'Brakes', price: 12500, stock: 'In stock', compat: 'Honda Civic Type R, Accord', description: 'Low dust, high-friction ceramic compound for ultra-stopping power.', icon: '🛞' },
+    { id: 'p3', name: 'Adjustable Coilovers Kit', number: 'TL-SUS-770', category: 'Suspension', price: 62000, stock: 'Low stock', compat: 'Toyota GT86 / Subaru BRZ', description: '32-level damping adjustable monotube suspension setup.', icon: '🔧' }
+  ];
+}
+
+function saveSettings() { localStorage.setItem('tl_settings', JSON.stringify(settings)); }
+function saveProducts() { localStorage.setItem('tl_products', JSON.stringify(products)); }
+
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function renderProducts() {
+  const grid = $('productGrid');
+  const compatVal = $('compatFilter')?.value || '';
+  
+  const filtered = products.filter(p => {
+    const mCat = filter === 'All' || p.category === filter;
+    const mCompat = !compatVal || (p.compat && p.compat.toLowerCase().includes(compatVal.toLowerCase()));
+    const q = query.toLowerCase();
+    const mQ = !q || p.name.toLowerCase().includes(q) || p.number.toLowerCase().includes(q) || (p.compat && p.compat.toLowerCase().includes(q));
+    return mCat && mCompat && mQ;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty">No products match your filter criteria.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="card" id="card-${p.id}">
+      <div class="viewer">
+        <div class="part-visual" style="${settings.deepShadow ? 'filter: drop-shadow(0 15px 15px rgba(0,0,0,0.25));' : ''}">
+          ${p.image ? `<img src="${p.image}" alt="${esc(p.name)}" style="max-width:80%;max-height:80%;object-fit:contain;pointer-events:none;">` : p.icon}
+        </div>
+        <span class="stock ${p.stock === 'Low stock' ? 'low' : ''}">${p.stock}</span>
+        <span class="view-hint">DRAG TO ROTATE 3D</span>
+      </div>
+      <div class="card-body">
+        <div class="meta"><span>${esc(p.category)}</span><span>${esc(p.number)}</span></div>
+        <h3>${esc(p.name)}</h3>
+        <p class="desc">${esc(p.description)}</p>
+        ${p.compat ? `<span class="compat">適合: ${esc(p.compat)}</span>` : ''}
+        <div class="card-bottom">
+          <div class="price">${formatBDT(p.price)}</div>
+          <div class="card-actions">
+            <button class="btn primary tiny" onclick="openInquire('${p.id}')">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  wireViewers();
+}
+
+function openInquire(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  
+  $('inqCategory').textContent = p.category.toUpperCase();
+  $('inqTitle').textContent = p.name;
+  $('inqPartNum').textContent = p.number;
+  $('inqPrice').innerHTML = `${formatBDT(p.price)} <small style="font-size:12px;color:var(--muted)">BDT</small>`;
+  $('inqDesc').textContent = p.description;
+  $('inqCompat').textContent = p.compat || 'Universal Fit';
+  $('inqStockText').textContent = p.stock;
+  $('inqStock').textContent = p.stock;
+  $('inqStock').className = 'stock ' + (p.stock === 'Low stock' ? 'low' : '');
+  
+  $('inqVisual').innerHTML = p.image ? `<img src="${p.image}" style="max-width:85%;max-height:85%;object-fit:contain;">` : p.icon;
+  
+  const orderMsg = encodeURIComponent(`Hello TorqueLab, I would like to inquire/order: ${p.name} (${p.number}) - BDT ${p.price}`);
+  $('inqWaBtn').onclick = () => window.open(`https://wa.me/8801710292929?text=${orderMsg}`, '_blank');
+  $('inqCallBtn').onclick = () => window.location.href = 'tel:01710292929';
+  
+  $('inquireModal').classList.add('show');
+}
+
+const avroPatterns = [
+  ['kkh', 'ক্ষ'], ['ggn', 'গ্ন'], ['gdh', 'গ্ধ'], ['kth', 'ক্থ'], ['ksh', 'ক্ষ'],
+  ['cch', 'চ্ছ'], ['jhh', 'ঝ'], ['tth', 'ঠ'], ['ddh', 'ঢ'], ['tth', 'থ'],
+  ['ddh', 'ধ'], ['shh', 'ষ'], ['ngkh', 'ঙ্খ'], ['nggh', 'ঙ্ঘ'], ['ngk', 'ঙ্ক'],
+  ['ngg', 'ঙ্গ'], ['nch', 'ঞ্চ'], ['njh', 'ঞ্জ'], ['nch', 'ঞ্ছ'], ['nj', 'ঞ্জ'],
+  ['sth', 'স্থ'], ['sph', 'স্ফ'], ['skt', 'স্ক'], ['spt', 'স্প'],
+  ['kh', 'খ'], ['gh', 'ঘ'], ['ch', 'ছ'], ['jh', 'ঝ'], ['th', 'থ'],
+  ['dh', 'ধ'], ['ph', 'ফ'], ['bh', 'ভ'], ['sh', 'শ'], ['Sh', 'ষ'],
+  ['Th', 'ঠ'], ['Dh', 'ঢ'], ['Rh', 'ঢ়'], ['ng', 'ঙ'], ['aO', 'অ'],
+  ['oi', 'ঐ'], ['ou', 'ৌ'], ['ou', 'ঔ'], ['aa', 'আ'], ['ee', 'ঈ'],
+  ['oo', 'ঊ'], ['ri', 'ঋ'], ['k', 'ক'], ['g', 'গ'], ['c', 'চ'],
+  ['j', 'জ'], ['t', 'ত'], ['d', 'দ'], ['p', 'প'], ['f', 'ফ'],
+  ['b', 'ব'], ['m', 'ম'], ['z', 'য'], ['r', 'র'], ['l', 'ল'],
+  ['s', 'স'], ['h', 'হ'], ['R', 'ড়'], ['y', 'য়'], ['T', 'ট'],
+  ['D', 'ড'], ['N', 'ণ'], ['n', 'ন'], ['w', 'ও'], ['o', 'ো'],
+  ['a', 'া'], ['i', 'ি'], ['I', 'ী'], ['u', 'ু'], ['U', 'ূ'],
+  ['e', 'ে'], ['O', 'ও'], ['e', 'এ'], ['a', 'অ']
+];
+
+function parseAvro(str) {
+  let res = '';
+  let i = 0;
+  while (i < str.length) {
+    let matched = false;
+    for (let [eng, bng] of avroPatterns) {
+      if (str.substr(i, eng.length) === eng) {
+        res += bng;
+        i += eng.length;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      res += str[i];
+      i++;
+    }
+  }
+  return res;
+}
+
+// Attach live Avro converter to any input or textarea
+function attachAvroTyping(inputEl) {
+  if (!inputEl) return;
+  inputEl.addEventListener('input', () => {
+    const modeSelect = $('banglaTypingMode');
+    if (modeSelect && modeSelect.value === 'avro') {
+      const original = inputEl.value;
+      const parsed = parseAvro(original);
+      if (original !== parsed) {
+        inputEl.value = parsed;
+      }
+    }
+  });
+}
+
+// Layout definitions for Virtual Keyboard
+const layouts = {
+  avro: [
+    ['অ','আ','ই','ঈ','উ','ঊ','ঋ','এ','ঐ','ও','ঔ'],
+    ['ক','খ','গ','ঘ','ঙ','চ','ছ','জ','ঝ','ঞ'],
+    ['ট','ঠ','ড','ঢ','ণ','ত','থ','দ','ধ','ন'],
+    ['প','ফ','ব','ভ','ম','য','র','ল','শ','ষ','স','হ'],
+    ['া','ি','ী','ু','ূ','ৃ','ে','ৈ','ো','ৌ','্','ং','ঃ','ঁ']
+  ],
+  unijoy: [
+    ['১','২','৩','৪','৫','৬','৭','৮','৯','০'],
+    ['ৌ','ৈ','া','ী','ূ','ব','হ','গ','দ','জ','ড়'],
+    ['ো','ে','্','ি','ু','র','ন','স','ত','চ','খ'],
+    ['ং','ঃ','ঁ','ম','ফ','য়','ল','ক','ঠ','প']
+  ],
+  probhat: [
+    ['১','২','৩','৪','৫','৬','৭','৮','৯','০'],
+    ['দ','ন','া','ে','র','ত','য','ু','ি','ো','প'],
+    ['শ','স','দ','ফ','গ','হ','জ','ক','ল'],
+    ['জ','এক্স','চ','ভ','ব','ন','ম']
+  ]
+};
+
+function setupBanglaKeyboard() {
+  const toggleBtn = $('toggleGlobalKb');
+  const kb = $('globalKb');
+  const searchInput = $('search');
+  const modeSelect = $('banglaTypingMode');
+  const keyArea = $('kbKeyArea');
+
+  // Attach live phonetic typing to catalog editor fields as well
+  attachAvroTyping(searchInput);
+  attachAvroTyping($('partName'));
+  attachAvroTyping($('partCompat'));
+  attachAvroTyping($('partDesc'));
+
+  function renderLayout(mode) {
+    const layout = layouts[mode] || layouts['avro'];
+    keyArea.innerHTML = layout.map(row => `
+      <div class="kb-row">
+        ${row.map(char => `<button class="kb-btn" type="button">${char}</button>`).join('')}
+      </div>
+    `).join('');
+
+    keyArea.querySelectorAll('.kb-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')
+          ? document.activeElement 
+          : searchInput;
+
+        activeEl.value += btn.textContent;
+        activeEl.dispatchEvent(new Event('input'));
+        activeEl.focus();
+      };
+    });
+  }
+
+  toggleBtn.onclick = () => {
+    kb.style.display = kb.style.display === 'none' ? 'flex' : 'none';
+    renderLayout(modeSelect.value);
+  };
+
+  modeSelect.onchange = () => {
+    if (kb.style.display !== 'none') {
+      renderLayout(modeSelect.value);
+    }
+  };
+
+  $('kbSpace').onclick = (e) => {
+    e.preventDefault();
+    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
+    activeEl.value += ' ';
+    activeEl.dispatchEvent(new Event('input'));
+    activeEl.focus();
+  };
+
+  $('kbBack').onclick = (e) => {
+    e.preventDefault();
+    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
+    activeEl.value = activeEl.value.slice(0, -1);
+    activeEl.dispatchEvent(new Event('input'));
+    activeEl.focus();
+  };
+
+  $('kbClear').onclick = (e) => {
+    e.preventDefault();
+    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
+    activeEl.value = '';
+    activeEl.dispatchEvent(new Event('input'));
+    activeEl.focus();
+  };
+}
+
+let selectedAuthTab = 'dba';
+
+function updateAuthUI() {
+  const badge = $('userBadge');
+  
+  if (currentUserRole === 'admin') {
+    badge.innerHTML = '⚡ DBA / Admin';
+    badge.style.color = 'var(--red)';
+    badge.style.borderColor = 'var(--red)';
+  } else {
+    badge.innerHTML = '🔑 Visitor Mode';
+    badge.style.color = 'var(--blue)';
+    badge.style.borderColor = 'var(--line)';
+  }
+}
+
+function applyBrand(){
+  const n=settings.name||'TorqueLab';
+  $('brandHeader').textContent=n.toUpperCase();
+  $('heroName').innerHTML=esc(n).toUpperCase()+'<br>OUTPERFORM.';
+  $('heroTag').textContent=settings.tag;
+  $('footerText').textContent=(n+' · Precision in every part'+(settings.contact?' · '+settings.contact:''));
+  $('brandMark').textContent=n.slice(0,1).toUpperCase();
+  $('brandMark').style.backgroundImage=settings.logo?`url("${settings.logo}")`:'';
+  $('brandMark').style.backgroundSize='cover';
+  $('brandMark').style.color=settings.logo?'transparent':'';
+  if ($('logoPreview')) {
+    $('logoPreview').src=settings.logo||'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52"><rect width="52" height="52" fill="#111"/><text x="26" y="35" text-anchor="middle" fill="#ff3b4e" font-size="28" font-family="Arial">T</text></svg>');
+  }
+}
+
+function drawFilters(){
+  const cats=['All','Engine','Brakes','Suspension','Accessories'];
+  $('filters').innerHTML=cats.map(c=>`<button class="chip ${filter===c?'active':''}" data-cat="${c}">${c}</button>`).join('')+`<select class="chip compat-filter" id="compatFilter" aria-label="Filter by vehicle"><option value="">All vehicles</option>${[...new Set(products.flatMap(p=>p.compat?p.compat.split(',').map(s=>s.trim()):[]))].map(x=>`<option>${esc(x)}</option>`).join('')}</select>`;
+  $('filters').querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{filter=b.dataset.cat;drawFilters();renderProducts()});
+  $('compatFilter').onchange=renderProducts;
+}
+
+function wireViewers(){
+  document.querySelectorAll('.viewer').forEach(v=>{
+    let down=false,x0=0,y0=0,rx=0,ry=0,zoom=1;
+    const art=v.querySelector('.part-visual');
+    if (!art) return;
+    v.onpointerdown=e=>{down=true;x0=e.clientX;y0=e.clientY;v.setPointerCapture(e.pointerId)};
+    v.onpointermove=e=>{
+      if(!down)return;
+      ry+=(e.clientX-x0)*.65;
+      rx-=(e.clientY-y0)*.5;
+      x0=e.clientX;y0=e.clientY;
+      art.style.setProperty('--ry',ry+'deg');
+      art.style.setProperty('--rx',rx+'deg');
+      art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
+    };
+    v.onpointerup=()=>down=false;
+    v.onpointercancel=()=>down=false;
+    v.onwheel=e=>{
+      e.preventDefault();
+      zoom=Math.max(.7,Math.min(1.45,zoom-e.deltaY*.001));
+      art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
+    };
+    if(settings.autoSpin){
+      let last=performance.now();
+      function spin(now){
+        if(!document.body.contains(v))return;
+        if(!down){
+          ry+=(now-last)*.001*(Number(settings.speed)||0)*6;
+          art.style.setProperty('--ry',ry+'deg');
+          art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
+        }
+        last=now;
+        requestAnimationFrame(spin);
+      }
+      requestAnimationFrame(spin);
+    }
+  });
+}
+
+function renderAdminList(){
+  $('adminProductList').innerHTML=products.map(p=>`<div class="product-row"><span class="row-icon">${p.image?'<img src="'+p.image+'" style="width:32px;height:32px;object-fit:contain">':p.icon}</span><div class="row-info"><strong>${esc(p.name)}</strong><small>${esc(p.number)} · ${esc(p.category)} · ${formatBDT(p.price)}</small></div><button class="btn tiny" data-edit="${esc(p.id)}">Edit</button><button class="btn tiny danger" data-delete="${esc(p.id)}">Delete</button></div>`).join('')||'<div class="empty">No products yet. Add your first part.</div>';
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
+  document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>{
+    products=products.filter(p=>p.id!==b.dataset.delete);
+    saveProducts();
+    renderAdminList();
+    drawFilters();
+    renderProducts();
+    toast('Product deleted');
+  });
+}
+
+function openEdit(id){
+  const p=products.find(x=>x.id===id);
+  $('productForm').reset();
+  $('productId').value=p?.id||'';
+  $('editTitle').textContent=p?'Edit product':'Add product';
+  if(p){
+    $('partName').value=p.name;
+    $('partNumber').value=p.number;
+    $('partCategory').value=p.category;
+    $('partPrice').value=p.price;
+    $('partStock').value=p.stock;
+    $('partCompat').value=p.compat;
+    $('partDesc').value=p.description;
+    $('partImage').dataset.current=p.image||'';
+  } else {
+    $('partImage').dataset.current='';
+  }
+  $('editModal').classList.add('show');
+}
+
+function setupBanglaKeyboard() {
+  const toggleBtn = $('toggleGlobalKb');
+  const kb = $('globalKb');
+  const searchInput = $('search');
+
+  toggleBtn.onclick = () => {
+    kb.style.display = kb.style.display === 'none' ? 'flex' : 'none';
+  };
+
+  kb.querySelectorAll('.kb-btn').forEach(btn => {
+    btn.onclick = (e) => {
+      e.preventDefault();
+      if (btn.id === 'kbSpace') {
+        searchInput.value += ' ';
+      } else if (btn.id === 'kbBack') {
+        searchInput.value = searchInput.value.slice(0, -1);
+      } else if (btn.id === 'kbClear') {
+        searchInput.value = '';
+      } else {
+        searchInput.value += btn.textContent;
+      }
+      query = searchInput.value;
+      renderProducts();
+      searchInput.focus();
+    };
+  });
+}
+
+// Global Event Listeners Wiring
+window.addEventListener('DOMContentLoaded', () => {
+  setupBanglaKeyboard();
+
+  $('authClose').onclick = () => $('authModal').classList.remove('show');
+
+  $('authForm').onsubmit = (e) => {
+    e.preventDefault();
+    const pass = $('loginPass').value.trim();
+    
+    if (pass === '01556528332') {
+      currentUserRole = 'admin';
+      updateAuthUI();
+      $('authModal').classList.remove('show');
+      $('loginPass').value = '';
+      $('adminModal').classList.add('show');
+      renderAdminList();
+      toast('Admin access granted!');
+    } else {
+      toast('Incorrect passcode');
+    }
+  };
+
+  $('inqClose').onclick = () => $('inquireModal').classList.remove('show');
+  
+  // Handled dynamically inside setupBanglaKeyboard now
+  // $('search').oninput = e => { query = e.target.value; renderProducts(); };
+  
+  $('adminOpen').onclick = () => {
+    if (currentUserRole === 'admin') {
+      $('adminModal').classList.add('show');
+      renderAdminList();
+    } else {
+      $('authModal').classList.add('show');
+    }
+  };
+  
+  $('adminClose').onclick = $('doneAdmin').onclick = () => $('adminModal').classList.remove('show');
+  $('editClose').onclick = $('cancelEdit').onclick = () => $('editModal').classList.remove('show');
+  $('addProduct').onclick = () => openEdit('');
+
+  document.querySelectorAll('.tab').forEach(t => {
+    if (!t.dataset.pane) return;
+    t.onclick = () => {
+      document.querySelectorAll('.tabs .tab').forEach(x => { if (x.dataset.pane) x.classList.toggle('active', x === t); });
+      document.querySelectorAll('.pane').forEach(x => x.classList.toggle('active', x.id === t.dataset.pane));
+      if (t.dataset.pane === 'companyPane') {
+        $('companyName').value = settings.name;
+        $('companyTag').value = settings.tag;
+        $('companyContact').value = settings.contact;
+        $('logoPreview').src = settings.logo || $('logoPreview').src;
+      }
+      if (t.dataset.pane === 'effectsPane') {
+        $('depthRange').value = settings.depth;
+        $('depthOut').value = settings.depth + '°';
+        $('speedRange').value = settings.speed;
+        $('speedOut').value = settings.speed;
+        $('autoSpin').checked = settings.autoSpin;
+        $('deepShadow').checked = settings.deepShadow;
+      }
+    };
+  });
+
+  ['companyName', 'companyTag', 'companyContact'].forEach(id => {
+    const el = $(id);
+    if (el) {
+      el.oninput = () => {
+        settings.name = $('companyName').value || 'TorqueLab';
+        settings.tag = $('companyTag').value;
+        settings.contact = $('companyContact').value;
+        saveSettings();
+        applyBrand();
+      };
+    }
+  });
+
+  if ($('logoUpload')) {
+    $('logoUpload').onchange = e => {
+      const f = e.target.files[0];
+      if (f) {
+        const r = new FileReader();
+        r.onload = () => { settings.logo = r.result; saveSettings(); applyBrand(); };
+        r.readAsDataURL(f);
+      }
+    };
+  }
+
+  if ($('removeLogo')) $('removeLogo').onclick = () => { settings.logo = ''; saveSettings(); applyBrand(); };
+  if ($('depthRange')) $('depthRange').oninput = e => { $('depthOut').value = e.target.value + '°'; settings.depth = +e.target.value; saveSettings(); };
+  if ($('speedRange')) $('speedRange').oninput = e => { $('speedOut').value = e.target.value; settings.speed = +e.target.value; saveSettings(); };
+  if ($('autoSpin')) $('autoSpin').onchange = e => { settings.autoSpin = e.target.checked; saveSettings(); renderProducts(); };
+  if ($('deepShadow')) $('deepShadow').onchange = e => { settings.deepShadow = e.target.checked; saveSettings(); renderProducts(); };
+
+  if ($('productForm')) {
+    $('productForm').onsubmit = async e => {
+      e.preventDefault();
+      const id = $('productId').value || 'p' + Date.now();
+      const old = products.find(p => p.id === id);
+      let image = $('partImage').dataset.current || '';
+      const file = $('partImage').files[0];
+      
+      if (file) {
+        image = await new Promise((resolve, reject) => {
+          const r = new FileReader();
+          r.onload = () => resolve(r.result);
+          r.onerror = reject;
+          r.readAsDataURL(file);
+        });
+      }
+      
+      const p = {
+        id,
+        name: $('partName').value.trim(),
+        number: $('partNumber').value.trim(),
+        category: $('partCategory').value,
+        price: Number($('partPrice').value),
+        stock: $('partStock').value,
+        compat: $('partCompat').value.trim(),
+        description: $('partDesc').value.trim(),
+        image,
+        icon: old?.icon || '⚙️'
+      };
+      
+      if (old) products = products.map(x => x.id === id ? p : x);
+      else products.unshift(p);
+      
+      try {
+        saveProducts();
+      } catch {
+        toast('Image too large for browser storage; try a smaller image');
+        return;
+      }
+      
+      $('editModal').classList.remove('show');
+      renderAdminList();
+      drawFilters();
+      renderProducts();
+      toast(old ? 'Product updated' : 'Product added');
+    };
+  }
+
+  [$('authModal'), $('inquireModal'), $('adminModal'), $('editModal')].forEach(o => {
+    if (!o) return;
+    o.addEventListener('click', e => {
+      if (e.target === o) o.classList.remove('show');
+    });
+  });
+
+  applyBrand();
+  drawFilters();
+  renderProducts();
+  updateAuthUI();
+});
+</script>
+</body>
+</html>
