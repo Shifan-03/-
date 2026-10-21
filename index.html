@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TorqueLab | Performance Parts</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TorqueLab | Performance Parts</title>
 <style>
 :root {
   --bg: #f4f8f5;
@@ -19,70 +21,7 @@
   --card-bg: #ffffff;
   --shadow: 0 4px 18px rgba(30, 107, 62, 0.08);
 }
-.bangla-kb {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: #eaf3ec;
-  border: 1px solid var(--line);
-  padding: 10px;
-  border-radius: 12px;
-  margin-top: 8px;
-  max-width: 100%;
-}
-.kb-mode-select {
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background: #ffffff;
-  font-size: 11px;
-  font-weight: bold;
-  color: var(--green-primary);
-}
-.kb-row {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.kb-btn {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--text);
-  cursor: pointer;
-  user-select: none;
-  min-width: 32px;
-  text-align: center;
-  transition: background 0.15s;
-}
-.kb-btn:hover {
-  background: var(--green-light);
-  border-color: var(--green-primary);
-}
-.kb-btn.space {
-  flex-grow: 1;
-  max-width: 200px;
-}
-.kb-btn.action {
-  background: #dbebe0;
-  font-size: 12px;
-}
-.kb-toggle-btn {
-  background: var(--green-light);
-  color: var(--green-primary);
-  border: 1px solid var(--green-soft);
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  margin-left: auto;
-  cursor: pointer;
-  font-weight: 700;
-}
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
   margin: 0;
   background: radial-gradient(circle at 80% -10%, #dcf0e2 0%, var(--bg) 55%);
@@ -98,12 +37,12 @@ button { cursor: pointer; touch-action: manipulation; }
   background: #123d24;
   color: #e3f2e7;
   font-size: 12px;
-  padding: 6px clamp(14px, 4vw, 70px);
+  padding: 8px clamp(14px, 4vw, 70px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 .contact-links {
   display: flex;
@@ -117,12 +56,10 @@ button { cursor: pointer; touch-action: manipulation; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: opacity 0.2s;
 }
-.contact-links a:hover { opacity: 0.8; text-decoration: underline; }
 
 .topbar {
-  height: 72px;
+  height: 68px;
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
@@ -130,15 +67,15 @@ button { cursor: pointer; touch-action: manipulation; }
   padding: 0 clamp(14px, 4vw, 70px);
   position: sticky;
   top: 0;
-  z-index: 5;
-  background: rgba(255, 255, 255, 0.92);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   box-shadow: 0 2px 10px rgba(0,0,0,0.03);
 }
 .brand { display: flex; gap: 10px; align-items: center; font-weight: 850; letter-spacing: .08em; min-width: 0; }
 .brand-mark {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border: 2px solid var(--green-primary);
   background: var(--green-light);
   display: grid;
@@ -147,13 +84,14 @@ button { cursor: pointer; touch-action: manipulation; }
   color: var(--green-primary);
   font-weight: 950;
   flex-shrink: 0;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 18px;
 }
 .brand small { display: block; color: var(--muted); letter-spacing: .18em; font-size: 9px; }
 .nav { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 .btn {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 10px;
   background: #ffffff;
   color: var(--text);
   padding: 9px 15px;
@@ -167,12 +105,12 @@ button { cursor: pointer; touch-action: manipulation; }
   touch-action: manipulation;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
-.btn:hover { border-color: var(--green-accent); color: var(--green-primary); transform: translateY(-1px); }
+.btn:active { transform: scale(0.97); }
+.btn:hover { border-color: var(--green-accent); color: var(--green-primary); }
 .btn.primary { background: var(--green-primary); border-color: var(--green-primary); color: white; }
-.btn.primary:hover { background: #16522f; border-color: #16522f; color: white; }
 .btn.wa { background: #25d366; border-color: #25d366; color: white; }
-.btn.wa:hover { background: #1eb957; color: white; }
 .btn.ghost { background: transparent; border-color: transparent; box-shadow: none; }
+
 .user-badge {
   font-size: 12px;
   padding: 6px 12px;
@@ -187,36 +125,29 @@ button { cursor: pointer; touch-action: manipulation; }
   font-weight: 600;
 }
 
-.wrap { max-width: 1280px; margin: auto; padding: 24px clamp(12px, 3vw, 54px) 70px; }
+.wrap { max-width: 1280px; margin: auto; padding: 20px clamp(12px, 3vw, 54px) 70px; }
 .hero {
-  min-height: 240px;
-  padding: clamp(24px, 4vw, 42px);
+  min-height: 220px;
+  padding: clamp(20px, 4vw, 42px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 22px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   position: relative;
   background: linear-gradient(125deg, #ffffff 10%, #eaf5ed 70%, #d4ebda 100%);
   box-shadow: var(--shadow);
 }
-.hero:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(132deg, transparent 0 12px, rgba(30, 107, 62, 0.03) 13px 15px);
-  pointer-events: none;
-}
 .eyebrow { font-size: 11px; letter-spacing: .23em; text-transform: uppercase; color: var(--green-primary); font-weight: 800; }
-.hero h1 { font-size: clamp(28px, 5vw, 56px); line-height: 1.05; letter-spacing: -.04em; margin: 10px 0; color: #0d2113; }
-.hero p { color: var(--muted); max-width: 530px; margin: 0 0 20px; font-size: clamp(13px, 2vw, 15px); }
-.hero-art { font-size: clamp(60px, 10vw, 155px); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12)); transform: rotate(-13deg); opacity: .9; user-select: none; }
+.hero h1 { font-size: clamp(26px, 5vw, 52px); line-height: 1.1; letter-spacing: -.03em; margin: 8px 0; color: #0d2113; font-weight: 900; }
+.hero p { color: var(--muted); max-width: 530px; margin: 0 0 16px; font-size: clamp(13px, 2vw, 15px); }
+.hero-art { font-size: clamp(60px, 10vw, 140px); filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12)); transform: rotate(-10deg); opacity: .9; user-select: none; }
 
 .contact-quick-bar {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-top: 14px;
 }
@@ -224,7 +155,7 @@ button { cursor: pointer; touch-action: manipulation; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   background: #ffffff;
   border: 1px solid var(--line);
   border-radius: 20px;
@@ -234,25 +165,77 @@ button { cursor: pointer; touch-action: manipulation; }
   text-decoration: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
-.contact-chip:hover { border-color: var(--green-primary); color: var(--green-primary); }
 
-.section-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 28px 0 18px; flex-wrap: wrap; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 15px; margin: 24px 0 16px; flex-wrap: wrap; }
 .section-head h2 { font-size: clamp(20px, 3vw, 24px); margin: 0; letter-spacing: -.03em; color: #0d2113; }
 .section-head p { color: var(--muted); margin: 4px 0 0; font-size: 13px; }
 
+.bangla-kb {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #eaf3ec;
+  border: 1px solid var(--line);
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 8px;
+  width: 100%;
+}
+.kb-mode-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green-primary);
+  outline: none;
+}
+.kb-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.kb-btn {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  min-width: 32px;
+  text-align: center;
+}
+.kb-btn:active { background: var(--green-light); }
+.kb-btn.space { flex-grow: 1; max-width: 200px; }
+.kb-btn.action { background: #dbebe0; font-size: 12px; }
+.kb-toggle-btn {
+  background: var(--green-light);
+  color: var(--green-primary);
+  border: 1px solid var(--green-soft);
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
 .chip {
-  padding: 8px 14px;
+  padding: 8px 16px;
   border: 1px solid var(--line);
   background: #ffffff;
   color: var(--muted);
   border-radius: 30px;
   font-size: 12px;
   font-weight: 750;
-  min-height: 36px;
+  min-height: 38px;
   display: inline-flex;
   align-items: center;
-  transition: .2s;
 }
 .chip.active { background: var(--green-primary); border-color: var(--green-primary); color: #ffffff; }
 
@@ -262,27 +245,25 @@ button { cursor: pointer; touch-action: manipulation; }
   align-items: center;
   border: 1px solid var(--line);
   background: #ffffff;
-  padding: 9px 13px;
-  border-radius: 10px;
-  width: min(320px, 100%);
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: min(340px, 100%);
   box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
-.search input { border: 0; outline: 0; color: var(--text); background: transparent; width: 100%; }
+.search input { border: 0; outline: 0; color: var(--text); background: transparent; width: 100%; font-size: 14px; }
 
 .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .card {
   border: 1px solid var(--line);
   background: var(--card-bg);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  transition: .25s ease;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow);
 }
-.card:hover { transform: translateY(-4px); border-color: var(--green-soft); box-shadow: 0 10px 25px rgba(30, 107, 62, 0.12); }
 .viewer {
-  height: 210px;
+  height: 220px;
   position: relative;
   display: grid;
   place-items: center;
@@ -293,17 +274,10 @@ button { cursor: pointer; touch-action: manipulation; }
   border-bottom: 1px solid #eef4f0;
 }
 .viewer:active { cursor: grabbing; }
-.viewer:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(30, 107, 62, 0.02) 9px 11px);
-}
 .part-visual {
-  font-size: 92px;
-  filter: drop-shadow(4px 10px 12px rgba(0,0,0,0.12));
+  font-size: 96px;
+  filter: drop-shadow(0 15px 15px rgba(0,0,0,0.18));
   user-select: none;
-  transition: transform .16s ease-out;
   transform: perspective(500px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
   display: flex;
   align-items: center;
@@ -311,7 +285,7 @@ button { cursor: pointer; touch-action: manipulation; }
   width: 100%;
   height: 100%;
 }
-.view-hint { position: absolute; bottom: 8px; left: 10px; color: var(--muted); font-size: 9px; letter-spacing: .08em; pointer-events: none; font-weight: 600; }
+.view-hint { position: absolute; bottom: 8px; left: 10px; color: var(--muted); font-size: 9px; letter-spacing: .08em; pointer-events: none; font-weight: 700; background: rgba(255,255,255,0.85); padding: 2px 6px; border-radius: 4px; }
 .stock {
   position: absolute;
   right: 10px;
@@ -328,27 +302,25 @@ button { cursor: pointer; touch-action: manipulation; }
 
 .card-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
 .meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
-.card h3 { font-size: 17px; margin: 8px 0 5px; color: #0d2113; }
+.card h3 { font-size: 17px; margin: 8px 0 5px; color: #0d2113; font-weight: 800; }
 .desc { font-size: 12px; color: var(--muted); min-height: 36px; line-height: 1.45; }
-.compat { font-size: 11px; color: var(--green-primary); font-weight: 600; margin: 10px 0; word-break: break-word; background: var(--green-light); padding: 4px 8px; border-radius: 6px; display: inline-block; }
-.card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 12px; margin-top: auto; }
-.price { font-weight: 850; font-size: 19px; color: var(--green-primary); }
-.price small { font-size: 10px; color: var(--muted); font-weight: 500; }
-.card-actions { display: flex; gap: 7px; }
-.card-actions .btn { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+.compat { font-size: 11px; color: var(--green-primary); font-weight: 700; margin: 10px 0; background: var(--green-light); padding: 4px 10px; border-radius: 8px; display: inline-block; align-self: flex-start; }
+.card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 12px; margin-top: auto; gap: 8px; }
+.price { font-weight: 900; font-size: 20px; color: var(--green-primary); }
+.card-actions { display: flex; gap: 6px; }
 
-.empty { grid-column: 1/-1; text-align: center; padding: 45px 20px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); background: #ffffff; }
+.empty { grid-column: 1/-1; text-align: center; padding: 45px 20px; border: 1px dashed var(--line); border-radius: 16px; color: var(--muted); background: #ffffff; }
 
 /* Overlay & Modals */
-.overlay { position: fixed; inset: 0; background: rgba(13, 33, 19, 0.45); backdrop-filter: blur(4px); z-index: 20; display: none; align-items: center; justify-content: center; padding: 12px; overflow-y: auto; }
+.overlay { position: fixed; inset: 0; background: rgba(13, 33, 19, 0.55); backdrop-filter: blur(5px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 12px; overflow-y: auto; }
 .overlay.show { display: flex; }
-.modal { width: min(820px, 100%); max-height: 90vh; overflow-y: auto; border: 1px solid var(--line); border-radius: 18px; background: #ffffff; box-shadow: 0 25px 60px rgba(0,0,0,0.15); margin: auto; }
-.modal-head { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 16px 20px; position: sticky; top: 0; background: #ffffff; z-index: 2; }
+.modal { width: min(820px, 100%); max-height: 90vh; overflow-y: auto; border: 1px solid var(--line); border-radius: 20px; background: #ffffff; box-shadow: 0 25px 60px rgba(0,0,0,0.2); margin: auto; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 16px 20px; position: sticky; top: 0; background: #ffffff; z-index: 5; }
 .modal-head h2 { margin: 0; font-size: 18px; color: #0d2113; }
 .modal-body { padding: 20px; }
 
 .tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
-.tab { border: 1px solid var(--line); padding: 8px 14px; border-radius: 8px; background: #f4f8f5; color: var(--muted); font-size: 12px; font-weight: 750; white-space: nowrap; flex-shrink: 0; }
+.tab { border: 1px solid var(--line); padding: 8px 16px; border-radius: 10px; background: #f4f8f5; color: var(--muted); font-size: 12px; font-weight: 750; white-space: nowrap; }
 .tab.active { color: white; border-color: var(--green-primary); background: var(--green-primary); }
 .pane { display: none; }
 .pane.active { display: block; }
@@ -357,95 +329,153 @@ button { cursor: pointer; touch-action: manipulation; }
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field.full { grid-column: 1/-1; }
 .field label { font-size: 11px; color: var(--muted); font-weight: 700; }
-.field input, .field select, .field textarea { border: 1px solid var(--line); border-radius: 8px; background: #f9fbf9; color: var(--text); padding: 10px 11px; outline: 0; font-size: 14px; }
+.field input, .field select, .field textarea { border: 1px solid var(--line); border-radius: 10px; background: #f9fbf9; color: var(--text); padding: 11px 12px; outline: 0; font-size: 14px; }
 .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--green-primary); background: #ffffff; }
 .field textarea { min-height: 80px; resize: vertical; }
-.hint { font-size: 10px; color: var(--muted); }
 
 .modal-foot { padding: 14px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; align-items: center; background: #f9fbf9; }
 
 .product-list { display: grid; gap: 8px; }
-.product-row { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #ffffff; flex-wrap: wrap; }
-.row-icon { font-size: 24px; flex-shrink: 0; }
+.product-row { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #ffffff; flex-wrap: wrap; }
 .row-info { flex: 1; min-width: 140px; }
 .row-info strong { display: block; font-size: 13px; color: #0d2113; }
 .row-info small { color: var(--muted); word-break: break-word; }
-.tiny { padding: 6px 10px; font-size: 11px; min-height: 32px; }
+.tiny { padding: 6px 12px; font-size: 11px; min-height: 36px; border-radius: 8px; }
 .danger { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
 
-.range-row { display: grid; grid-template-columns: 1fr 65px; align-items: center; gap: 12px; }
-.range-row input { width: 100%; accent-color: var(--green-primary); }
-.range-row output { font-size: 12px; color: var(--green-primary); font-weight: 700; text-align: right; }
-
-.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); gap: 10px; }
-.toggle { appearance: none; width: 42px; height: 24px; border-radius: 20px; background: #cbd5e1; position: relative; cursor: pointer; transition: .2s; flex-shrink: 0; }
-.toggle:before { content: ""; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; border-radius: 50%; background: white; transition: .2s; }
-.toggle:checked { background: var(--green-primary); }
-.toggle:checked:before { left: 21px; }
-
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 18px); opacity: 0; z-index: 40; background: #123d24; border: 1px solid #2e9b58; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; transition: .25s; pointer-events: none; max-width: 90vw; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 18px); opacity: 0; z-index: 200; background: #123d24; border: 1px solid #2e9b58; color: #ffffff; padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700; transition: .25s; pointer-events: none; max-width: 90vw; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-.footer { border-top: 1px solid var(--line); padding: 24px 16px; text-align: center; color: var(--muted); font-size: 12px; background: #ffffff; }
+.footer { border-top: 1px solid var(--line); padding: 24px 16px 80px; text-align: center; color: var(--muted); font-size: 12px; background: #ffffff; }
 .footer-contacts { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; font-weight: 600; }
 .footer-contacts a { color: var(--green-primary); text-decoration: none; }
 
-.brand-preview { width: 48px; height: 48px; object-fit: contain; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; padding: 3px; flex-shrink: 0; }
-.compat-filter { max-width: 170px; }
-.notice { color: var(--muted); font-size: 12px; margin: 0 0 15px; }
-
-/* Inquire Modal & Auth */
 .detail-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
-.detail-viewer { height: 300px; border-radius: 14px; border: 1px solid var(--line); background: radial-gradient(circle at center, #ffffff 0%, #eaf5ed 100%); }
+.detail-viewer { height: 280px; border-radius: 16px; border: 1px solid var(--line); background: radial-gradient(circle at center, #ffffff 0%, #eaf5ed 100%); }
 .detail-viewer .part-visual { font-size: 110px; }
 .detail-info { display: flex; flex-direction: column; gap: 12px; }
 .detail-badge { display: inline-block; padding: 4px 10px; border-radius: 14px; background: var(--green-light); color: var(--green-primary); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
 .detail-price { font-size: 26px; font-weight: 900; color: var(--green-primary); }
-.spec-box { background: #f9fbf9; border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; }
+.spec-box { background: #f9fbf9; border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; }
 .spec-box div small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; font-weight: 700; }
 .auth-box { max-width: 380px; margin: auto; padding: 10px 0; width: 100%; }
 
-.action-buttons { display: flex; flex-direction: column; gap: 8px; }
+/* Mobile Floating Bottom Bar for Ultra UX */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  padding: 10px 14px;
+  z-index: 50;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
+}
+.mobile-bottom-bar .btn { flex: 1; }
 
 @media(max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media(max-width: 768px) {
-  .topbar { height: 64px; padding: 0 14px; }
+  .mobile-bottom-bar { display: flex; gap: 10px; }
+  .topbar { height: 62px; padding: 0 14px; }
   .contact-bar { text-align: center; justify-content: center; }
   .brand small { display: none; }
-  .hero { padding: 24px; min-height: 220px; }
-  .hero-art { opacity: .35; position: absolute; right: 10px; top: 50%; transform: translateY(-50%) rotate(-13deg); font-size: 100px; }
-  .hero-copy { position: relative; z-index: 1; }
-  .section-head { align-items: start; flex-direction: column; gap: 10px; }
+  .hero { padding: 22px; min-height: 200px; }
+  .hero-art { opacity: .25; position: absolute; right: 10px; top: 50%; transform: translateY(-50%) rotate(-10deg); font-size: 90px; }
+  .section-head { align-items: stretch; flex-direction: column; gap: 12px; }
   .search { width: 100%; }
   .detail-grid { grid-template-columns: 1fr; }
-  .detail-viewer { height: 220px; }
+  .detail-viewer { height: 210px; }
 }
 @media(max-width: 560px) {
-  .topbar { height: 60px; padding: 0 12px; }
-  .brand-mark { width: 34px; height: 34px; font-size: 14px; }
+  .topbar { height: 58px; padding: 0 12px; }
+  .brand-mark { width: 34px; height: 34px; font-size: 15px; }
   .nav .btn { padding: 7px 10px; font-size: 11px; min-height: 36px; }
   .user-badge { display: none; }
-  .wrap { padding-top: 14px; padding-bottom: 50px; }
+  .wrap { padding-top: 14px; padding-bottom: 90px; }
   .hero { padding: 18px; }
-  .hero h1 { font-size: 26px; }
-  .hero p { font-size: 12px; margin-bottom: 14px; }
+  .hero h1 { font-size: 24px; }
+  .hero p { font-size: 12px; margin-bottom: 12px; }
   .product-grid { grid-template-columns: 1fr; gap: 14px; }
   .viewer { height: 200px; }
   .form-grid { grid-template-columns: 1fr; }
   .field.full { grid-column: auto; }
-  .modal { max-height: 94vh; }
+  .modal { max-height: 94vh; border-radius: 16px; }
   .modal-body { padding: 14px; }
   .modal-head, .modal-foot { padding: 12px 14px; }
-  .compat-filter { max-width: none; width: 100%; }
-  .card-actions .btn { padding: 8px 10px; }
-  .card h3 { font-size: 16px; }
-  .detail-viewer { height: 200px; }
-  .detail-viewer .part-visual { font-size: 80px; }
   .spec-box { grid-template-columns: 1fr; }
 }
 </style>
+
+<!-- Firebase SDK Imports -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'torquelab-app';
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+  apiKey: "demo-api-key",
+  authDomain: "demo.firebaseapp.com",
+  projectId: "demo-project",
+  storageBucket: "demo.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.TorqueDB = {
+  db,
+  auth,
+  appId,
+  isAuthReady: false,
+  async initAuth() {
+    try {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+    } catch(e) {
+      console.warn("Auth initialization fallback:", e);
+    }
+    this.isAuthReady = true;
+  },
+  
+  listenToStore(callback) {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        await this.initAuth();
+      }
+      const storeDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'storeData', 'main');
+      onSnapshot(storeDocRef, (snap) => {
+        if (snap.exists()) {
+          callback(snap.data());
+        } else {
+          // Initialize cloud DB with defaults if first time
+          callback(null);
+        }
+      }, (err) => {
+        console.error("Cloud store sync error:", err);
+      });
+    });
+  },
+
+  async saveStore(data) {
+    if (!auth.currentUser) await this.initAuth();
+    const storeDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'storeData', 'main');
+    await setDoc(storeDocRef, data, { merge: true });
+  }
+};
+</script>
 </head>
 <body>
+
 <!-- Top Direct Contact Header -->
 <div class="contact-bar">
   <div>📞 Order & Inquiry Hotline: <strong>01710292929</strong></div>
@@ -472,8 +502,9 @@ button { cursor: pointer; touch-action: manipulation; }
   <section class="hero">
     <div class="hero-copy">
       <div class="eyebrow">Engineered for perfection</div>
-      <h1 id="heroName">BUILT TO<br>OUTPERFORM.</h1>
-      <p id="heroTag">Precision auto parts for drivers who expect quality. Direct phone & WhatsApp ordering supported.</p>
+      <!-- Outperform removed as requested -->
+      <h1 id="heroName">BUILT FOR PRECISION PERFORMANCE.</h1>
+      <p id="heroTag">Precision auto parts for drivers who expect top quality. Direct phone & WhatsApp ordering supported.</p>
       
       <div class="contact-quick-bar">
         <a class="contact-chip" href="tel:01710292929">📞 01710292929</a>
@@ -493,10 +524,10 @@ button { cursor: pointer; touch-action: manipulation; }
       <div>
         <div class="eyebrow">Shop the collection</div>
         <h2>Performance inventory</h2>
-        <p>Drag products to inspect in interactive 3D view.</p>
+        <p>Interactive 3D view — drag to view part angles.</p>
       </div>
       <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end; width:min(380px,100%);">
-        <div class="search">⌕ <input id="search" placeholder="Search (খুঁজুন - type 'amra' for আমরা)..." aria-label="Search products"></div>
+        <div class="search">⌕ <input id="search" placeholder="Search parts (খুঁজুন - type 'amra' for আমরা)..." aria-label="Search products"></div>
         <div style="display:flex; gap:6px; align-items:center; width:100%; justify-content:space-between;">
           <select id="banglaTypingMode" class="kb-mode-select" title="Typing Mode">
             <option value="avro">Avro (Phonetic / ফোনেটিক)</option>
@@ -508,7 +539,7 @@ button { cursor: pointer; touch-action: manipulation; }
         </div>
         <div class="bangla-kb" id="globalKb" style="display:none; width:100%;">
           <div class="kb-row" id="kbKeyArea">
-            <!-- Dynamic layout injected by JS -->
+            <!-- Dynamic keyboard keys injected by JS -->
           </div>
           <div class="kb-row">
             <button class="kb-btn space" id="kbSpace">Space</button>
@@ -523,10 +554,16 @@ button { cursor: pointer; touch-action: manipulation; }
   </section>
 </main>
 
+<!-- Mobile Floating Bottom Bar -->
+<div class="mobile-bottom-bar">
+  <a class="btn wa" href="https://wa.me/8801710292929" target="_blank" rel="noopener">💬 WhatsApp Order</a>
+  <a class="btn primary" href="tel:01710292929">📞 Call Direct</a>
+</div>
+
 <footer class="footer">
   <div id="footerText">TORQUELAB · Precision in every part</div>
   <div class="footer-contacts">
-    <span>📞 Phone/Order: <a href="tel:01710292929">01710292929</a></span>
+    <span>📞 Hotline: <a href="tel:01710292929">01710292929</a></span>
     <span>💬 WhatsApp: <a href="https://wa.me/8801710292929" target="_blank">01710292929</a></span>
     <span>🌐 Facebook: <a href="https://www.facebook.com/share/1GF5S5Eqcv/" target="_blank">TorqueLab FB Page</a></span>
   </div>
@@ -536,8 +573,8 @@ button { cursor: pointer; touch-action: manipulation; }
   <div class="modal auth-box">
     <div class="modal-head">
       <div>
-        <div class="eyebrow">TorqueLab Portal</div>
-        <h2>DBA Access Code Required</h2>
+        <div class="eyebrow">TorqueLab DBA Portal</div>
+        <h2>Passcode Required</h2>
       </div>
       <button class="btn tiny" id="authClose">✕</button>
     </div>
@@ -545,12 +582,12 @@ button { cursor: pointer; touch-action: manipulation; }
       <form id="authForm">
         <div class="form-grid" style="grid-template-columns: 1fr;">
           <div class="field">
-            <label>Enter Passcode *</label>
-            <input required id="loginPass" placeholder="e.g. 5544" type="password" autocomplete="off">
+            <label>Enter DBA Key *</label>
+            <input required id="loginPass" placeholder="e.g. 01556528332" type="password" autocomplete="off">
           </div>
         </div>
         <div style="margin-top:18px">
-          <button class="btn primary" style="width:100%" type="submit" id="authSubmitBtn">Unlock Admin Center</button>
+          <button class="btn primary" style="width:100%" type="submit" id="authSubmitBtn">Unlock DBA Live Sync</button>
         </div>
       </form>
     </div>
@@ -571,7 +608,7 @@ button { cursor: pointer; touch-action: manipulation; }
         <div class="viewer detail-viewer" id="inqViewerContainer">
           <div class="part-visual" id="inqVisual">⚙️</div>
           <span class="stock" id="inqStock">In stock</span>
-          <span class="view-hint">DRAG TO ROTATE 3D MODEL · SCROLL TO ZOOM</span>
+          <span class="view-hint">DRAG TO ROTATE 3D MODEL</span>
         </div>
         <div class="detail-info">
           <div>
@@ -590,7 +627,7 @@ button { cursor: pointer; touch-action: manipulation; }
             </div>
           </div>
           
-          <div class="action-buttons" style="margin-top:auto">
+          <div class="action-buttons" style="display:flex; flex-direction:column; gap:8px; margin-top:auto">
             <button class="btn wa" id="inqWaBtn" style="padding:12px;width:100%">💬 Order via WhatsApp (01710292929)</button>
             <button class="btn primary" id="inqCallBtn" style="padding:12px;width:100%">📞 Call Now to Order (01710292929)</button>
           </div>
@@ -604,8 +641,8 @@ button { cursor: pointer; touch-action: manipulation; }
   <div class="modal">
     <div class="modal-head">
       <div>
-        <div class="eyebrow">DBA Control center</div>
-        <h2>Store management</h2>
+        <div class="eyebrow">DBA Live Cloud Sync</div>
+        <h2>Store & Cloud management</h2>
       </div>
       <button class="btn tiny" id="adminClose">✕</button>
     </div>
@@ -613,45 +650,37 @@ button { cursor: pointer; touch-action: manipulation; }
       <div class="tabs">
         <button class="tab active" data-pane="productsPane">Inventory</button>
         <button class="tab" data-pane="companyPane">Company & brand</button>
-        <button class="tab" data-pane="effectsPane">3D effects</button>
       </div>
       <div class="pane active" id="productsPane">
         <div class="section-head" style="margin:0 0 12px">
           <div>
             <h2 style="font-size:17px">Products</h2>
-            <p>Add and manage your catalog</p>
+            <p>Changes save permanently to the live database for all users.</p>
           </div>
           <button class="btn primary" id="addProduct">＋ Add product</button>
         </div>
         <div class="product-list" id="adminProductList"></div>
       </div>
       <div class="pane" id="companyPane">
-        <p class="notice">Updates are saved in this browser and appear immediately on the storefront.</p>
+        <p class="notice" style="color:var(--muted);font-size:12px">Updates save permanently across all devices in real-time.</p>
         <div class="form-grid">
           <div class="field"><label>Company name</label><input id="companyName" maxlength="40"></div>
           <div class="field"><label>Subtitle / tagline</label><input id="companyTag" maxlength="100"></div>
-          <div class="field"><label>Contact email or phone</label><input id="companyContact" placeholder="sales@example.com"></div>
-          <div class="field">
-            <label>Brand mark (PNG/JPG)</label>
+          <div class="field"><label>Contact email or phone</label><input id="companyContact" placeholder="01710292929"></div>
+          <div class="field full">
+            <label>Brand mark (Logo)</label>
             <div style="display:flex;gap:10px;align-items:center">
-              <img class="brand-preview" id="logoPreview" alt="Logo preview">
-              <label class="btn tiny file-label">Upload logo<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden></label>
+              <img class="brand-preview" id="logoPreview" alt="Logo preview" style="width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:8px;padding:3px;">
+              <label class="btn tiny">Upload logo<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden></label>
               <button class="btn tiny" id="removeLogo">Remove</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="pane" id="effectsPane">
-        <p class="notice">Tune the interactive 3D product viewer. Drag product image to rotate; touch gestures work on phones.</p>
-        <div class="field"><label>Rotation depth</label><div class="range-row"><input type="range" id="depthRange" min="4" max="32" value="18"><output id="depthOut">18°</output></div></div>
-        <div class="field" style="margin-top:19px"><label>Auto-spin speed</label><div class="range-row"><input type="range" id="speedRange" min="0" max="8" value="2"><output id="speedOut">2</output></div></div>
-        <div class="toggle-row"><div><strong>Auto-spin</strong><div class="hint">Slowly rotate idle products</div></div><input class="toggle" id="autoSpin" type="checkbox" checked></div>
-        <div class="toggle-row"><div><strong>Enhanced depth shadow</strong><div class="hint">Add a stronger floating product effect</div></div><input class="toggle" id="deepShadow" type="checkbox" checked></div>
-      </div>
     </div>
     <div class="modal-foot">
-      <span class="hint">Changes are stored locally in this browser.</span>
-      <button class="btn" id="doneAdmin">Done</button>
+      <span class="hint" style="font-size:11px;color:var(--muted)">⚡ Live Cloud Database Active</span>
+      <button class="btn primary" id="doneAdmin">Done</button>
     </div>
   </div>
 </div>
@@ -676,7 +705,7 @@ button { cursor: pointer; touch-action: manipulation; }
           <div class="field"><label>Stock status</label><select id="partStock"><option>In stock</option><option>Low stock</option><option>Out of stock</option></select></div>
           <div class="field"><label>Compatible models (বাংলা/English)</label><input id="partCompat" placeholder="e.g. Civic 2018–2024 বা সব মডেল"></div>
           <div class="field full"><label>Description (বাংলা/English)</label><textarea id="partDesc" maxlength="500"></textarea></div>
-          <div class="field full"><label>Product image (transparent PNG recommended)</label><input id="partImage" type="file" accept="image/png,image/jpeg,image/webp"><div class="hint">Transparent product cutouts give the best 3D result.</div></div>
+          <div class="field full"><label>Product image (PNG/JPG)</label><input id="partImage" type="file" accept="image/png,image/jpeg,image/webp"><div class="hint" style="font-size:10px;color:var(--muted)">Images are synchronized across all mobile and desktop viewers.</div></div>
         </div>
       </div>
       <div class="modal-foot">
@@ -690,31 +719,37 @@ button { cursor: pointer; touch-action: manipulation; }
 <div class="toast" id="toast"></div>
 
 <script>
-
 const $ = id => document.getElementById(id);
 const esc = s => (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const formatBDT = amount => '৳' + Number(amount || 0).toLocaleString('bn-BD');
 
-let currentUserRole = 'visitor'; // 'visitor' or 'admin'
+let currentUserRole = 'visitor';
 let filter = 'All';
 let query = '';
 
-let settings = JSON.parse(localStorage.getItem('tl_settings') || '{}');
-if (!settings.name) {
-  settings = { name: 'TorqueLab', tag: 'Precision auto parts for drivers who expect quality.', contact: '01710292929', depth: 18, speed: 2, autoSpin: true, deepShadow: true };
-}
+let settings = { 
+  name: 'TorqueLab', 
+  tag: 'Precision auto parts for drivers who expect top quality.', 
+  contact: '01710292929', 
+  logo: '' 
+};
 
-let products = JSON.parse(localStorage.getItem('tl_products') || 'null');
-if (!products) {
-  products = [
-    { id: 'p1', name: 'Forged Alloy Turbocharger', number: 'TL-TRB-204', category: 'Engine', price: 85000, stock: 'In stock', compat: 'Subaru WRX 2015–2021', description: 'High-flow forged compressor wheel engineered for responsive boost.', icon: '⚙️' },
-    { id: 'p2', name: 'Ceramic Performance Brake Pads', number: 'TL-BRK-009', category: 'Brakes', price: 12500, stock: 'In stock', compat: 'Honda Civic Type R, Accord', description: 'Low dust, high-friction ceramic compound for ultra-stopping power.', icon: '🛞' },
-    { id: 'p3', name: 'Adjustable Coilovers Kit', number: 'TL-SUS-770', category: 'Suspension', price: 62000, stock: 'Low stock', compat: 'Toyota GT86 / Subaru BRZ', description: '32-level damping adjustable monotube suspension setup.', icon: '🔧' }
-  ];
-}
+let products = [
+  { id: 'p1', name: 'Forged Alloy Turbocharger', number: 'TL-TRB-204', category: 'Engine', price: 85000, stock: 'In stock', compat: 'Subaru WRX 2015–2021', description: 'High-flow forged compressor wheel engineered for responsive boost.', icon: '⚙️' },
+  { id: 'p2', name: 'Ceramic Performance Brake Pads', number: 'TL-BRK-009', category: 'Brakes', price: 12500, stock: 'In stock', compat: 'Honda Civic Type R, Accord', description: 'Low dust, high-friction ceramic compound for ultra-stopping power.', icon: '🛞' },
+  { id: 'p3', name: 'Adjustable Coilovers Kit', number: 'TL-SUS-770', category: 'Suspension', price: 62000, stock: 'Low stock', compat: 'Toyota GT86 / Subaru BRZ', description: '32-level damping adjustable monotube suspension setup.', icon: '🔧' }
+];
 
-function saveSettings() { localStorage.setItem('tl_settings', JSON.stringify(settings)); }
-function saveProducts() { localStorage.setItem('tl_products', JSON.stringify(products)); }
+// Save changes directly to Cloud Database
+async function syncToCloud() {
+  if (window.TorqueDB) {
+    try {
+      await window.TorqueDB.saveStore({ settings, products });
+    } catch(e) {
+      console.error("Cloud sync error:", e);
+    }
+  }
+}
 
 function toast(msg) {
   const t = $('toast');
@@ -743,17 +778,17 @@ function renderProducts() {
   grid.innerHTML = filtered.map(p => `
     <div class="card" id="card-${p.id}">
       <div class="viewer">
-        <div class="part-visual" style="${settings.deepShadow ? 'filter: drop-shadow(0 15px 15px rgba(0,0,0,0.25));' : ''}">
+        <div class="part-visual">
           ${p.image ? `<img src="${p.image}" alt="${esc(p.name)}" style="max-width:80%;max-height:80%;object-fit:contain;pointer-events:none;">` : p.icon}
         </div>
         <span class="stock ${p.stock === 'Low stock' ? 'low' : ''}">${p.stock}</span>
-        <span class="view-hint">DRAG TO ROTATE 3D</span>
+        <span class="view-hint">DRAG TO ROTATE</span>
       </div>
       <div class="card-body">
         <div class="meta"><span>${esc(p.category)}</span><span>${esc(p.number)}</span></div>
         <h3>${esc(p.name)}</h3>
         <p class="desc">${esc(p.description)}</p>
-        ${p.compat ? `<span class="compat">適合: ${esc(p.compat)}</span>` : ''}
+        ${p.compat ? `<span class="compat">${esc(p.compat)}</span>` : ''}
         <div class="card-bottom">
           <div class="price">${formatBDT(p.price)}</div>
           <div class="card-actions">
@@ -783,13 +818,14 @@ function openInquire(id) {
   
   $('inqVisual').innerHTML = p.image ? `<img src="${p.image}" style="max-width:85%;max-height:85%;object-fit:contain;">` : p.icon;
   
-  const orderMsg = encodeURIComponent(`Hello TorqueLab, I would like to inquire/order: ${p.name} (${p.number}) - BDT ${p.price}`);
+  const orderMsg = encodeURIComponent(`Hello TorqueLab, I would like to order: ${p.name} (${p.number}) - ${formatBDT(p.price)}`);
   $('inqWaBtn').onclick = () => window.open(`https://wa.me/8801710292929?text=${orderMsg}`, '_blank');
   $('inqCallBtn').onclick = () => window.location.href = 'tel:01710292929';
   
   $('inquireModal').classList.add('show');
 }
 
+// Avro Phonetic Typing Converter
 const avroPatterns = [
   ['kkh', 'ক্ষ'], ['ggn', 'গ্ন'], ['gdh', 'গ্ধ'], ['kth', 'ক্থ'], ['ksh', 'ক্ষ'],
   ['cch', 'চ্ছ'], ['jhh', 'ঝ'], ['tth', 'ঠ'], ['ddh', 'ঢ'], ['tth', 'থ'],
@@ -830,7 +866,6 @@ function parseAvro(str) {
   return res;
 }
 
-// Attach live Avro converter to any input or textarea
 function attachAvroTyping(inputEl) {
   if (!inputEl) return;
   inputEl.addEventListener('input', () => {
@@ -845,7 +880,6 @@ function attachAvroTyping(inputEl) {
   });
 }
 
-// Layout definitions for Virtual Keyboard
 const layouts = {
   avro: [
     ['অ','আ','ই','ঈ','উ','ঊ','ঋ','এ','ঐ','ও','ঔ'],
@@ -864,7 +898,7 @@ const layouts = {
     ['১','২','৩','৪','৫','৬','৭','৮','৯','০'],
     ['দ','ন','া','ে','র','ত','য','ু','ি','ো','প'],
     ['শ','স','দ','ফ','গ','হ','জ','ক','ল'],
-    ['জ','এক্স','চ','ভ','ব','ন','ম']
+    ['জ','চ','ভ','ব','ন','ম']
   ]
 };
 
@@ -875,7 +909,6 @@ function setupBanglaKeyboard() {
   const modeSelect = $('banglaTypingMode');
   const keyArea = $('kbKeyArea');
 
-  // Attach live phonetic typing to catalog editor fields as well
   attachAvroTyping(searchInput);
   attachAvroTyping($('partName'));
   attachAvroTyping($('partCompat'));
@@ -939,13 +972,10 @@ function setupBanglaKeyboard() {
   };
 }
 
-let selectedAuthTab = 'dba';
-
 function updateAuthUI() {
   const badge = $('userBadge');
-  
   if (currentUserRole === 'admin') {
-    badge.innerHTML = '⚡ DBA / Admin';
+    badge.innerHTML = '⚡ DBA Live Admin';
     badge.style.color = 'var(--red)';
     badge.style.borderColor = 'var(--red)';
   } else {
@@ -956,137 +986,128 @@ function updateAuthUI() {
 }
 
 function applyBrand(){
-  const n=settings.name||'TorqueLab';
-  $('brandHeader').textContent=n.toUpperCase();
-  $('heroName').innerHTML=esc(n).toUpperCase()+'<br>OUTPERFORM.';
-  $('heroTag').textContent=settings.tag;
-  $('footerText').textContent=(n+' · Precision in every part'+(settings.contact?' · '+settings.contact:''));
-  $('brandMark').textContent=n.slice(0,1).toUpperCase();
-  $('brandMark').style.backgroundImage=settings.logo?`url("${settings.logo}")`:'';
-  $('brandMark').style.backgroundSize='cover';
-  $('brandMark').style.color=settings.logo?'transparent':'';
+  const n = settings.name || 'TorqueLab';
+  $('brandHeader').textContent = n.toUpperCase();
+  $('heroName').innerHTML = esc(n).toUpperCase() + '<br>PRECISION PERFORMANCE.';
+  $('heroTag').textContent = settings.tag;
+  $('footerText').textContent = (n + ' · Precision in every part' + (settings.contact ? ' · Hotline: ' + settings.contact : ''));
+  $('brandMark').textContent = n.slice(0,1).toUpperCase();
+  
+  if (settings.logo) {
+    $('brandMark').style.backgroundImage = `url("${settings.logo}")`;
+    $('brandMark').style.backgroundSize = 'cover';
+    $('brandMark').style.color = 'transparent';
+  } else {
+    $('brandMark').style.backgroundImage = 'none';
+    $('brandMark').style.color = 'var(--green-primary)';
+  }
+
   if ($('logoPreview')) {
-    $('logoPreview').src=settings.logo||'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52"><rect width="52" height="52" fill="#111"/><text x="26" y="35" text-anchor="middle" fill="#ff3b4e" font-size="28" font-family="Arial">T</text></svg>');
+    $('logoPreview').src = settings.logo || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52"><rect width="52" height="52" fill="#eaf3ec"/><text x="26" y="35" text-anchor="middle" fill="#1e6b3e" font-size="28" font-family="Arial">T</text></svg>');
   }
 }
 
 function drawFilters(){
-  const cats=['All','Engine','Brakes','Suspension','Accessories'];
-  $('filters').innerHTML=cats.map(c=>`<button class="chip ${filter===c?'active':''}" data-cat="${c}">${c}</button>`).join('')+`<select class="chip compat-filter" id="compatFilter" aria-label="Filter by vehicle"><option value="">All vehicles</option>${[...new Set(products.flatMap(p=>p.compat?p.compat.split(',').map(s=>s.trim()):[]))].map(x=>`<option>${esc(x)}</option>`).join('')}</select>`;
-  $('filters').querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{filter=b.dataset.cat;drawFilters();renderProducts()});
-  $('compatFilter').onchange=renderProducts;
+  const cats = ['All','Engine','Brakes','Suspension','Accessories'];
+  $('filters').innerHTML = cats.map(c => `<button class="chip ${filter===c?'active':''}" data-cat="${c}">${c}</button>`).join('') + `<select class="chip" id="compatFilter" aria-label="Filter by vehicle" style="max-width:170px;"><option value="">All vehicles</option>${[...new Set(products.flatMap(p => p.compat ? p.compat.split(',').map(s=>s.trim()) : []))].map(x => `<option>${esc(x)}</option>`).join('')}</select>`;
+  $('filters').querySelectorAll('[data-cat]').forEach(b => b.onclick = () => { filter = b.dataset.cat; drawFilters(); renderProducts(); });
+  $('compatFilter').onchange = renderProducts;
 }
 
+/* STRICT Interactive 3D Model rotation (NO Auto-spin, stays fixed on user input) */
 function wireViewers(){
-  document.querySelectorAll('.viewer').forEach(v=>{
-    let down=false,x0=0,y0=0,rx=0,ry=0,zoom=1;
-    const art=v.querySelector('.part-visual');
+  document.querySelectorAll('.viewer').forEach(v => {
+    let down = false, x0 = 0, y0 = 0, rx = 0, ry = 0, zoom = 1;
+    const art = v.querySelector('.part-visual');
     if (!art) return;
-    v.onpointerdown=e=>{down=true;x0=e.clientX;y0=e.clientY;v.setPointerCapture(e.pointerId)};
-    v.onpointermove=e=>{
-      if(!down)return;
-      ry+=(e.clientX-x0)*.65;
-      rx-=(e.clientY-y0)*.5;
-      x0=e.clientX;y0=e.clientY;
-      art.style.setProperty('--ry',ry+'deg');
-      art.style.setProperty('--rx',rx+'deg');
-      art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
+    
+    v.onpointerdown = e => { down = true; x0 = e.clientX; y0 = e.clientY; v.setPointerCapture(e.pointerId); };
+    v.onpointermove = e => {
+      if(!down) return;
+      ry += (e.clientX - x0) * 0.65;
+      rx -= (e.clientY - y0) * 0.5;
+      x0 = e.clientX; y0 = e.clientY;
+      art.style.setProperty('--ry', ry + 'deg');
+      art.style.setProperty('--rx', rx + 'deg');
+      art.style.transform = `perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
     };
-    v.onpointerup=()=>down=false;
-    v.onpointercancel=()=>down=false;
-    v.onwheel=e=>{
+    v.onpointerup = () => down = false;
+    v.onpointercancel = () => down = false;
+    v.onwheel = e => {
       e.preventDefault();
-      zoom=Math.max(.7,Math.min(1.45,zoom-e.deltaY*.001));
-      art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
+      zoom = Math.max(0.7, Math.min(1.45, zoom - e.deltaY * 0.001));
+      art.style.transform = `perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
     };
-    if(settings.autoSpin){
-      let last=performance.now();
-      function spin(now){
-        if(!document.body.contains(v))return;
-        if(!down){
-          ry+=(now-last)*.001*(Number(settings.speed)||0)*6;
-          art.style.setProperty('--ry',ry+'deg');
-          art.style.transform=`perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
-        }
-        last=now;
-        requestAnimationFrame(spin);
-      }
-      requestAnimationFrame(spin);
-    }
   });
 }
 
 function renderAdminList(){
-  $('adminProductList').innerHTML=products.map(p=>`<div class="product-row"><span class="row-icon">${p.image?'<img src="'+p.image+'" style="width:32px;height:32px;object-fit:contain">':p.icon}</span><div class="row-info"><strong>${esc(p.name)}</strong><small>${esc(p.number)} · ${esc(p.category)} · ${formatBDT(p.price)}</small></div><button class="btn tiny" data-edit="${esc(p.id)}">Edit</button><button class="btn tiny danger" data-delete="${esc(p.id)}">Delete</button></div>`).join('')||'<div class="empty">No products yet. Add your first part.</div>';
-  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openEdit(b.dataset.edit));
-  document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>{
-    products=products.filter(p=>p.id!==b.dataset.delete);
-    saveProducts();
+  $('adminProductList').innerHTML = products.map(p => `
+    <div class="product-row">
+      <span class="row-icon" style="font-size:24px;">${p.image ? '<img src="'+p.image+'" style="width:32px;height:32px;object-fit:contain">' : p.icon}</span>
+      <div class="row-info">
+        <strong>${esc(p.name)}</strong>
+        <small>${esc(p.number)} · ${esc(p.category)} · ${formatBDT(p.price)}</small>
+      </div>
+      <button class="btn tiny" data-edit="${esc(p.id)}">Edit</button>
+      <button class="btn tiny danger" data-delete="${esc(p.id)}">Delete</button>
+    </div>
+  `).join('') || '<div class="empty">No products yet. Add your first part.</div>';
+
+  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openEdit(b.dataset.edit));
+  document.querySelectorAll('[data-delete]').forEach(b => b.onclick = async () => {
+    products = products.filter(p => p.id !== b.dataset.delete);
+    await syncToCloud();
     renderAdminList();
     drawFilters();
     renderProducts();
-    toast('Product deleted');
+    toast('Product deleted permanently from Cloud');
   });
 }
 
 function openEdit(id){
-  const p=products.find(x=>x.id===id);
+  const p = products.find(x => x.id === id);
   $('productForm').reset();
-  $('productId').value=p?.id||'';
-  $('editTitle').textContent=p?'Edit product':'Add product';
+  $('productId').value = p?.id || '';
+  $('editTitle').textContent = p ? 'Edit product' : 'Add product';
   if(p){
-    $('partName').value=p.name;
-    $('partNumber').value=p.number;
-    $('partCategory').value=p.category;
-    $('partPrice').value=p.price;
-    $('partStock').value=p.stock;
-    $('partCompat').value=p.compat;
-    $('partDesc').value=p.description;
-    $('partImage').dataset.current=p.image||'';
+    $('partName').value = p.name;
+    $('partNumber').value = p.number;
+    $('partCategory').value = p.category;
+    $('partPrice').value = p.price;
+    $('partStock').value = p.stock;
+    $('partCompat').value = p.compat || '';
+    $('partDesc').value = p.description || '';
+    $('partImage').dataset.current = p.image || '';
   } else {
-    $('partImage').dataset.current='';
+    $('partImage').dataset.current = '';
   }
   $('editModal').classList.add('show');
 }
 
-function setupBanglaKeyboard() {
-  const toggleBtn = $('toggleGlobalKb');
-  const kb = $('globalKb');
-  const searchInput = $('search');
-
-  toggleBtn.onclick = () => {
-    kb.style.display = kb.style.display === 'none' ? 'flex' : 'none';
-  };
-
-  kb.querySelectorAll('.kb-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.preventDefault();
-      if (btn.id === 'kbSpace') {
-        searchInput.value += ' ';
-      } else if (btn.id === 'kbBack') {
-        searchInput.value = searchInput.value.slice(0, -1);
-      } else if (btn.id === 'kbClear') {
-        searchInput.value = '';
-      } else {
-        searchInput.value += btn.textContent;
-      }
-      query = searchInput.value;
-      renderProducts();
-      searchInput.focus();
-    };
-  });
-}
-
-// Global Event Listeners Wiring
+// Global Event Handlers Initialization
 window.addEventListener('DOMContentLoaded', () => {
   setupBanglaKeyboard();
+
+  // Listen to Live Permanent Database Changes
+  if (window.TorqueDB) {
+    window.TorqueDB.listenToStore((cloudData) => {
+      if (cloudData) {
+        if (cloudData.settings) settings = cloudData.settings;
+        if (cloudData.products) products = cloudData.products;
+        applyBrand();
+        drawFilters();
+        renderProducts();
+        if ($('adminModal').classList.contains('show')) renderAdminList();
+      }
+    });
+  }
 
   $('authClose').onclick = () => $('authModal').classList.remove('show');
 
   $('authForm').onsubmit = (e) => {
     e.preventDefault();
     const pass = $('loginPass').value.trim();
-    
     if (pass === '01556528332') {
       currentUserRole = 'admin';
       updateAuthUI();
@@ -1094,17 +1115,15 @@ window.addEventListener('DOMContentLoaded', () => {
       $('loginPass').value = '';
       $('adminModal').classList.add('show');
       renderAdminList();
-      toast('Admin access granted!');
+      toast('DBA Live Cloud Control Unlocked!');
     } else {
       toast('Incorrect passcode');
     }
   };
 
   $('inqClose').onclick = () => $('inquireModal').classList.remove('show');
-  
-  // Handled dynamically inside setupBanglaKeyboard now
-  // $('search').oninput = e => { query = e.target.value; renderProducts(); };
-  
+  $('search').oninput = e => { query = e.target.value; renderProducts(); };
+
   $('adminOpen').onclick = () => {
     if (currentUserRole === 'admin') {
       $('adminModal').classList.add('show');
@@ -1113,7 +1132,7 @@ window.addEventListener('DOMContentLoaded', () => {
       $('authModal').classList.add('show');
     }
   };
-  
+
   $('adminClose').onclick = $('doneAdmin').onclick = () => $('adminModal').classList.remove('show');
   $('editClose').onclick = $('cancelEdit').onclick = () => $('editModal').classList.remove('show');
   $('addProduct').onclick = () => openEdit('');
@@ -1129,26 +1148,18 @@ window.addEventListener('DOMContentLoaded', () => {
         $('companyContact').value = settings.contact;
         $('logoPreview').src = settings.logo || $('logoPreview').src;
       }
-      if (t.dataset.pane === 'effectsPane') {
-        $('depthRange').value = settings.depth;
-        $('depthOut').value = settings.depth + '°';
-        $('speedRange').value = settings.speed;
-        $('speedOut').value = settings.speed;
-        $('autoSpin').checked = settings.autoSpin;
-        $('deepShadow').checked = settings.deepShadow;
-      }
     };
   });
 
   ['companyName', 'companyTag', 'companyContact'].forEach(id => {
     const el = $(id);
     if (el) {
-      el.oninput = () => {
+      el.oninput = async () => {
         settings.name = $('companyName').value || 'TorqueLab';
         settings.tag = $('companyTag').value;
         settings.contact = $('companyContact').value;
-        saveSettings();
         applyBrand();
+        await syncToCloud();
       };
     }
   });
@@ -1158,17 +1169,23 @@ window.addEventListener('DOMContentLoaded', () => {
       const f = e.target.files[0];
       if (f) {
         const r = new FileReader();
-        r.onload = () => { settings.logo = r.result; saveSettings(); applyBrand(); };
+        r.onload = async () => { 
+          settings.logo = r.result; 
+          applyBrand(); 
+          await syncToCloud();
+        };
         r.readAsDataURL(f);
       }
     };
   }
 
-  if ($('removeLogo')) $('removeLogo').onclick = () => { settings.logo = ''; saveSettings(); applyBrand(); };
-  if ($('depthRange')) $('depthRange').oninput = e => { $('depthOut').value = e.target.value + '°'; settings.depth = +e.target.value; saveSettings(); };
-  if ($('speedRange')) $('speedRange').oninput = e => { $('speedOut').value = e.target.value; settings.speed = +e.target.value; saveSettings(); };
-  if ($('autoSpin')) $('autoSpin').onchange = e => { settings.autoSpin = e.target.checked; saveSettings(); renderProducts(); };
-  if ($('deepShadow')) $('deepShadow').onchange = e => { settings.deepShadow = e.target.checked; saveSettings(); renderProducts(); };
+  if ($('removeLogo')) {
+    $('removeLogo').onclick = async () => { 
+      settings.logo = ''; 
+      applyBrand(); 
+      await syncToCloud(); 
+    };
+  }
 
   if ($('productForm')) {
     $('productForm').onsubmit = async e => {
@@ -1203,18 +1220,13 @@ window.addEventListener('DOMContentLoaded', () => {
       if (old) products = products.map(x => x.id === id ? p : x);
       else products.unshift(p);
       
-      try {
-        saveProducts();
-      } catch {
-        toast('Image too large for browser storage; try a smaller image');
-        return;
-      }
+      await syncToCloud();
       
       $('editModal').classList.remove('show');
       renderAdminList();
       drawFilters();
       renderProducts();
-      toast(old ? 'Product updated' : 'Product added');
+      toast(old ? 'Product updated on Cloud' : 'Product saved permanently');
     };
   }
 
