@@ -360,7 +360,7 @@ button { cursor: pointer; touch-action: manipulation; }
 .spec-box div small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; font-weight: 700; }
 .auth-box { max-width: 380px; margin: auto; padding: 10px 0; width: 100%; }
 
-/* Mobile Floating Bottom Bar for Ultra UX */
+/* Mobile Floating Bottom Bar */
 .mobile-bottom-bar {
   display: none;
   position: fixed;
@@ -422,78 +422,13 @@ button { cursor: pointer; touch-action: manipulation; }
 }
 </style>
 
-<!-- Firebase SDK Imports -->
-<script type="module">
-/* =====================================================================
-   🔧 SETUP (একবারই করতে হবে) — Firebase Console থেকে নিজের config বসান
-   ===================================================================== */
-const ADMIN_EMAIL = "admin@torquelab.com";   // Firebase Authentication এ এই email দিয়েই Admin user বানাবেন
-const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
-};
-/* ===================================================================== */
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, collection, onSnapshot, setDoc, deleteDoc, getDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-const configured = !String(firebaseConfig.apiKey).startsWith("PASTE");
-let auth, db, settingsRef, productsCol;
-
-if (configured) {
-  const app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  settingsRef = doc(db, 'site', 'settings');
-  productsCol = collection(db, 'products');
-}
-
-const need = () => { if (!configured) throw new Error('DB_NOT_CONFIGURED'); };
-
-window.TorqueDB = {
-  configured,
-  ADMIN_EMAIL,
-
-  // Public live data (সবার ডিভাইসে real-time আপডেট)
-  listen(onSettings, onProducts) {
-    if (!configured) return;
-    onSnapshot(settingsRef, s => onSettings(s.exists() ? s.data() : null), e => console.error('settings', e));
-    onSnapshot(productsCol, snap => onProducts(snap.docs.map(d => d.data())), e => console.error('products', e));
-  },
-
-  // Admin auth (password only — email কোডে fixed)
-  async login(password) { need(); await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password); },
-  async logout() { if (configured) await signOut(auth); },
-  onAuth(cb) {
-    if (!configured) { cb(false); return; }
-    onAuthStateChanged(auth, u => cb(!!u && u.email === ADMIN_EMAIL));
-  },
-
-  // Admin writes (Firestore rules শুধু admin কে allow করবে)
-  async saveSettings(s) { need(); await setDoc(settingsRef, s); },
-  async saveProduct(p) { need(); await setDoc(doc(db, 'products', p.id), p); },
-  async deleteProduct(id) { need(); await deleteDoc(doc(db, 'products', id)); },
-
-  // প্রথমবার database ফাঁকা থাকলে default data বসিয়ে দেয়
-  async seedIfEmpty(settings, products) {
-    need();
-    const s = await getDoc(settingsRef);
-    if (s.exists()) return;
-    const b = writeBatch(db);
-    b.set(settingsRef, settings);
-    products.forEach(p => b.set(doc(db, 'products', p.id), p));
-    await b.commit();
-  }
-};
-</script>
+<!-- Supabase SDK Link -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- GitHub Repository local supabase.js import -->
+<script src="./supabase.js"></script>
 </head>
 <body>
-<div class="db-banner" id="dbBanner">⚠ Database সংযুক্ত নেই — Firebase config বসানো হয়নি, তাই কোনো পরিবর্তন save হবে না।</div>
+<div class="db-banner" id="dbBanner">⚠ Supabase Database কানেক্ট করা নেই! `supabase.js` ফাইলে SUPABASE_URL ও SUPABASE_ANON_KEY যোগ করুন।</div>
 
 <!-- Top Direct Contact Header -->
 <div class="contact-bar">
@@ -556,9 +491,7 @@ window.TorqueDB = {
           <button class="kb-toggle-btn" id="toggleGlobalKb">⌨️ বাংলা কিবোর্ড Layout</button>
         </div>
         <div class="bangla-kb" id="globalKb" style="display:none; width:100%;">
-          <div class="kb-row" id="kbKeyArea">
-            <!-- Dynamic keyboard keys injected by JS -->
-          </div>
+          <div class="kb-row" id="kbKeyArea"></div>
           <div class="kb-row">
             <button class="kb-btn space" id="kbSpace">Space</button>
             <button class="kb-btn action" id="kbBack">⌫ Backspace</button>
@@ -572,7 +505,6 @@ window.TorqueDB = {
   </section>
 </main>
 
-<!-- Mobile Floating Bottom Bar -->
 <div class="mobile-bottom-bar">
   <a class="btn wa" href="https://wa.me/8801710292929" target="_blank" rel="noopener">💬 WhatsApp Order</a>
   <a class="btn primary" href="tel:01710292929">📞 Call Direct</a>
@@ -601,7 +533,7 @@ window.TorqueDB = {
         <div class="form-grid" style="grid-template-columns: 1fr;">
           <div class="field">
             <label>Admin Password *</label>
-            <div class="pass-wrap"><input required id="loginPass" placeholder="Admin password" type="password" autocomplete="current-password"><button type="button" class="pass-eye" id="togglePass" aria-label="Show password">👁</button></div>
+            <div class="pass-wrap"><input required id="loginPass" placeholder="Admin password" type="password"><button type="button" class="pass-eye" id="togglePass" aria-label="Show password">👁</button></div>
           </div>
         </div>
         <div style="margin-top:18px">
@@ -644,7 +576,6 @@ window.TorqueDB = {
               <strong id="inqStockText">Immediate Shipping</strong>
             </div>
           </div>
-          
           <div class="action-buttons" style="display:flex; flex-direction:column; gap:8px; margin-top:auto">
             <button class="btn wa" id="inqWaBtn" style="padding:12px;width:100%">💬 Order via WhatsApp (01710292929)</button>
             <button class="btn primary" id="inqCallBtn" style="padding:12px;width:100%">📞 Call Now to Order (01710292929)</button>
@@ -659,651 +590,375 @@ window.TorqueDB = {
   <div class="modal">
     <div class="modal-head">
       <div>
-        <div class="eyebrow">DBA Live Cloud Sync</div>
-        <h2>Store & Cloud management</h2>
+        <div class="eyebrow">Supabase Database Admin</div>
+        <h2>TorqueLab Product Management</h2>
       </div>
       <button class="btn tiny" id="adminClose">✕</button>
     </div>
     <div class="modal-body">
       <div class="tabs">
-        <button class="tab active" data-pane="productsPane">Inventory</button>
-        <button class="tab" data-pane="companyPane">Company & brand</button>
+        <button class="tab active" data-pane="paneAdd">Add / Edit Item</button>
+        <button class="tab" data-pane="paneManage">Manage Products</button>
       </div>
-      <div class="pane active" id="productsPane">
-        <div class="section-head" style="margin:0 0 12px">
-          <div>
-            <h2 style="font-size:17px">Products</h2>
-            <p>Changes save permanently to the live database for all users.</p>
-          </div>
-          <button class="btn primary" id="addProduct">＋ Add product</button>
-        </div>
-        <div class="product-list" id="adminProductList"></div>
-      </div>
-      <div class="pane" id="companyPane">
-        <p class="notice" style="color:var(--muted);font-size:12px">Updates save permanently across all devices in real-time.</p>
-        <div class="form-grid">
-          <div class="field"><label>Company name</label><input id="companyName" maxlength="40"></div>
-          <div class="field"><label>Subtitle / tagline</label><input id="companyTag" maxlength="100"></div>
-          <div class="field"><label>Contact email or phone</label><input id="companyContact" placeholder="01710292929"></div>
-          <div class="field full">
-            <label>Brand mark (Logo)</label>
-            <div style="display:flex;gap:10px;align-items:center">
-              <img class="brand-preview" id="logoPreview" alt="Logo preview" style="width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:8px;padding:3px;">
-              <label class="btn tiny">Upload logo<input id="logoUpload" type="file" accept="image/png,image/jpeg,image/webp" hidden></label>
-              <button class="btn tiny" id="removeLogo">Remove</button>
+
+      <div class="pane active" id="paneAdd">
+        <form id="productForm">
+          <input type="hidden" id="pId">
+          <div class="form-grid">
+            <div class="field">
+              <label>Part Name *</label>
+              <input required id="pName" placeholder="e.g. Forged Alloy Turbocharger">
+            </div>
+            <div class="field">
+              <label>Part Code / Number *</label>
+              <input required id="pNum" placeholder="e.g. TL-TRB-204">
+            </div>
+            <div class="field">
+              <label>Category *</label>
+              <select id="pCategory">
+                <option value="Engine">Engine</option>
+                <option value="Brakes">Brakes</option>
+                <option value="Suspension">Suspension</option>
+                <option value="Accessories">Accessories</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Price (BDT ৳) *</label>
+              <input required type="number" id="pPrice" placeholder="85000">
+            </div>
+            <div class="field">
+              <label>Compatible Vehicle *</label>
+              <input required id="pCompat" placeholder="e.g. Subaru WRX 2015-2021">
+            </div>
+            <div class="field">
+              <label>Stock Status *</label>
+              <select id="pStock">
+                <option value="In Stock">In Stock</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Visual Icon / Emoji *</label>
+              <input id="pVisual" placeholder="⚙️ or 🏎️ or 🛞" value="⚙️">
+            </div>
+            <div class="field full">
+              <label>Description *</label>
+              <textarea required id="pDesc" placeholder="Product details and specs..."></textarea>
             </div>
           </div>
-        </div>
+          <div style="margin-top:16px; display:flex; gap:10px;">
+            <button class="btn primary" type="submit" id="saveBtn">Save Product to Supabase</button>
+            <button class="btn ghost" type="button" id="resetFormBtn">Clear Form</button>
+          </div>
+        </form>
       </div>
-    </div>
-    <div class="modal-foot">
-      <span class="hint" style="font-size:11px;color:var(--muted)">⚡ Live Cloud Database Active</span>
-      <div style="display:flex;gap:8px"><button class="btn" id="logoutBtn">Logout</button><button class="btn primary" id="doneAdmin">Done</button></div>
+
+      <div class="pane" id="paneManage">
+        <div class="product-list" id="adminProductList"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div>
-        <div class="eyebrow">Catalog editor</div>
-        <h2 id="editTitle">Add product</h2>
-      </div>
-      <button class="btn tiny" id="editClose">✕</button>
-    </div>
-    <form id="productForm">
-      <div class="modal-body">
-        <input type="hidden" id="productId">
-        <div class="form-grid">
-          <div class="field"><label>Part name (বাংলা/English) *</label><input required id="partName" maxlength="100"></div>
-          <div class="field"><label>Part number *</label><input required id="partNumber" maxlength="30"></div>
-          <div class="field"><label>Category</label><select id="partCategory"><option>Engine</option><option>Brakes</option><option>Suspension</option><option>Accessories</option></select></div>
-          <div class="field"><label>Price (BDT ৳) *</label><input required id="partPrice" type="number" min="0" step="1"></div>
-          <div class="field"><label>Stock status</label><select id="partStock"><option>In stock</option><option>Low stock</option><option>Out of stock</option></select></div>
-          <div class="field"><label>Compatible models (বাংলা/English)</label><input id="partCompat" placeholder="e.g. Civic 2018–2024 বা সব মডেল"></div>
-          <div class="field full"><label>Description (বাংলা/English)</label><textarea id="partDesc" maxlength="500"></textarea></div>
-          <div class="field full"><label>Product image (PNG/JPG)</label><input id="partImage" type="file" accept="image/png,image/jpeg,image/webp"><div class="hint" style="font-size:10px;color:var(--muted)">Images are synchronized across all mobile and desktop viewers.</div></div>
-        </div>
-      </div>
-      <div class="modal-foot">
-        <button class="btn" type="button" id="cancelEdit">Cancel</button>
-        <button class="btn primary" type="submit">Save product</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">Message</div>
 
 <script>
-const $ = id => document.getElementById(id);
-const esc = s => (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-const formatBDT = amount => '৳' + Number(amount || 0).toLocaleString('bn-BD');
-
-let currentUserRole = 'visitor';
-let filter = 'All';
-let query = '';
-
-let settings = { 
-  name: 'TorqueLab', 
-  tag: 'Precision auto parts for drivers who expect top quality.', 
-  contact: '01710292929', 
-  logo: '' 
-};
-
-let products = [
-  { id: 'p1', name: 'Forged Alloy Turbocharger', number: 'TL-TRB-204', category: 'Engine', price: 85000, stock: 'In stock', compat: 'Subaru WRX 2015–2021', description: 'High-flow forged compressor wheel engineered for responsive boost.', icon: '⚙️', createdAt: 3 },
-  { id: 'p2', name: 'Ceramic Performance Brake Pads', number: 'TL-BRK-009', category: 'Brakes', price: 12500, stock: 'In stock', compat: 'Honda Civic Type R, Accord', description: 'Low dust, high-friction ceramic compound for ultra-stopping power.', icon: '🛞', createdAt: 2 },
-  { id: 'p3', name: 'Adjustable Coilovers Kit', number: 'TL-SUS-770', category: 'Suspension', price: 62000, stock: 'Low stock', compat: 'Toyota GT86 / Subaru BRZ', description: '32-level damping adjustable monotube suspension setup.', icon: '🔧', createdAt: 1 }
+// Default Inventory Data
+const defaultProducts = [
+  { id: '1', name: 'Forged Alloy Turbocharger', num: 'TL-TRB-204', category: 'Engine', price: 85000, compat: 'Subaru WRX 2015–2021', stock: 'In Stock', visual: '⚙️', desc: 'High-flow forged compressor wheel engineered for responsive boost and dependable performance.' },
+  { id: '2', name: 'Carbon Ceramic Brake Kit', num: 'TL-BRK-009', category: 'Brakes', price: 120000, compat: 'Universal Track Spec', stock: 'In Stock', visual: '🛞', desc: 'Lightweight ceramic rotors with high-friction pads for maximum stopping power.' },
+  { id: '3', name: 'Adjustable Coilover Suspension', num: 'TL-SUS-770', category: 'Suspension', price: 65000, compat: 'Honda Civic FK8 / FL5', stock: 'Low Stock', visual: '🔧', desc: '32-way damping adjustable coilovers designed for circuit racing and track precision.' }
 ];
 
-let saveTimer;
-function requireAdmin() {
-  if (currentUserRole !== 'admin') { toast('Admin login প্রয়োজন'); return false; }
-  if (!window.TorqueDB || !TorqueDB.configured) { toast('Database সংযুক্ত নেই'); return false; }
-  return true;
-}
-// Settings (company/brand) — debounce করে save
-function syncSettings() {
-  if (!requireAdmin()) return;
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(async () => {
-    try { await TorqueDB.saveSettings(settings); toast('Saved ✓'); }
-    catch (e) { console.error(e); toast('Save হয়নি: ' + (e.code || e.message)); }
-  }, 700);
-}
-// ছবি compress করে (Firestore এর ১MB limit এর জন্য জরুরি)
-function compressImage(file, max = 800, quality = 0.8) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onerror = reject;
-    r.onload = () => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        const k = Math.min(1, max / Math.max(img.width, img.height));
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        resolve(c.toDataURL('image/jpeg', quality));
-      };
-      img.src = r.result;
-    };
-    r.readAsDataURL(file);
-  });
+// Provided Supabase Credentials
+const SUPABASE_URL = 'https://vbztkicwvqruckldwprj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZienRraWN3dnFydWNrbGR3cHJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NzU4NzksImV4cCI6MjEwODE1MTg3OX0.6k4NmY0r1Gz_gjM3xJdAENR6cakwabMOTa6ZnV3ov5s';
+
+let supabaseClient = null;
+let products = [...defaultProducts];
+let activeCategory = 'All';
+let isAdmin = false;
+
+// Initialize Supabase Connection
+function initSupabase() {
+  const banner = document.getElementById('dbBanner');
+  
+  try {
+    const url = (window.SUPABASE_URL && !window.SUPABASE_URL.includes('YOUR_SUPABASE_URL')) 
+      ? window.SUPABASE_URL 
+      : SUPABASE_URL;
+
+    const key = (window.SUPABASE_ANON_KEY && !window.SUPABASE_ANON_KEY.includes('YOUR_SUPABASE_ANON_KEY')) 
+      ? window.SUPABASE_ANON_KEY 
+      : SUPABASE_ANON_KEY;
+
+    if (window.supabase && url && key) {
+      supabaseClient = window.supabase.createClient(url, key);
+      banner.style.display = 'none';
+      fetchProductsFromSupabase();
+    } else {
+      banner.style.display = 'block';
+    }
+  } catch (e) {
+    console.error("Supabase Connection Error:", e);
+    banner.style.display = 'block';
+  }
 }
 
-function toast(msg) {
-  const t = $('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2600);
+async function fetchProductsFromSupabase() {
+  if (!supabaseClient) return;
+  try {
+    const { data, error } = await supabaseClient.from('products').select('*');
+    if (!error && data && data.length > 0) {
+      products = data;
+      renderProducts();
+      renderAdminProducts();
+    }
+  } catch (err) {
+    console.log('Using default local products', err);
+  }
+}
+
+// UI Render Helpers
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function renderFilters() {
+  const categories = ['All', 'Engine', 'Brakes', 'Suspension', 'Accessories'];
+  const filterContainer = document.getElementById('filters');
+  filterContainer.innerHTML = categories.map(cat => 
+    `<button class="chip ${cat === activeCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">${cat}</button>`
+  ).join('');
+}
+
+function filterCategory(cat) {
+  activeCategory = cat;
+  renderFilters();
+  renderProducts();
 }
 
 function renderProducts() {
-  const grid = $('productGrid');
-  const compatVal = $('compatFilter')?.value || '';
-  
+  const grid = document.getElementById('productGrid');
+  const query = document.getElementById('search').value.toLowerCase().trim();
+
   const filtered = products.filter(p => {
-    const mCat = filter === 'All' || p.category === filter;
-    const mCompat = !compatVal || (p.compat && p.compat.toLowerCase().includes(compatVal.toLowerCase()));
-    const q = query.toLowerCase();
-    const mQ = !q || p.name.toLowerCase().includes(q) || p.number.toLowerCase().includes(q) || (p.compat && p.compat.toLowerCase().includes(q));
-    return mCat && mCompat && mQ;
+    const matchCat = activeCategory === 'All' || p.category === activeCategory;
+    const matchSearch = p.name.toLowerCase().includes(query) || p.num.toLowerCase().includes(query) || p.compat.toLowerCase().includes(query);
+    return matchCat && matchSearch;
   });
 
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="empty">No products match your filter criteria.</div>`;
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty">কোনো যন্ত্রাংশ পাওয়া যায়নি (No parts found matching your query).</div>`;
     return;
   }
 
   grid.innerHTML = filtered.map(p => `
-    <div class="card" id="card-${p.id}">
-      <div class="viewer">
-        <div class="part-visual">
-          ${p.image ? `<img src="${p.image}" alt="${esc(p.name)}" style="max-width:80%;max-height:80%;object-fit:contain;pointer-events:none;">` : p.icon}
-        </div>
-        <span class="stock ${p.stock === 'Low stock' ? 'low' : ''}">${p.stock}</span>
-        <span class="view-hint">DRAG TO ROTATE</span>
+    <div class="card">
+      <div class="viewer" onmousemove="handle3DRotate(event, this)" onmouseleave="reset3DRotate(this)" ontouchmove="handle3DTouchRotate(event, this)">
+        <div class="part-visual">${p.visual || '⚙️'}</div>
+        <span class="stock ${p.stock === 'Low Stock' ? 'low' : ''}">${p.stock}</span>
+        <span class="view-hint">3D DRAG TO ROTATE</span>
       </div>
       <div class="card-body">
-        <div class="meta"><span>${esc(p.category)}</span><span>${esc(p.number)}</span></div>
-        <h3>${esc(p.name)}</h3>
-        <p class="desc">${esc(p.description)}</p>
-        ${p.compat ? `<span class="compat">${esc(p.compat)}</span>` : ''}
+        <div class="meta"><span>${p.category}</span><span>${p.num}</span></div>
+        <h3>${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <span class="compat">🚘 ${p.compat}</span>
         <div class="card-bottom">
-          <div class="price">${formatBDT(p.price)}</div>
+          <div class="price">৳${Number(p.price).toLocaleString('bn-BD')}</div>
           <div class="card-actions">
-            <button class="btn primary tiny" onclick="openInquire('${p.id}')">View Details</button>
+            <button class="btn primary tiny" onclick="openInquiry('${p.id}')">View Details</button>
           </div>
         </div>
       </div>
     </div>
   `).join('');
-
-  wireViewers();
 }
 
-function openInquire(id) {
-  const p = products.find(x => x.id === id);
-  if (!p) return;
-  
-  $('inqCategory').textContent = p.category.toUpperCase();
-  $('inqTitle').textContent = p.name;
-  $('inqPartNum').textContent = p.number;
-  $('inqPrice').innerHTML = `${formatBDT(p.price)} <small style="font-size:12px;color:var(--muted)">BDT</small>`;
-  $('inqDesc').textContent = p.description;
-  $('inqCompat').textContent = p.compat || 'Universal Fit';
-  $('inqStockText').textContent = p.stock;
-  $('inqStock').textContent = p.stock;
-  $('inqStock').className = 'stock ' + (p.stock === 'Low stock' ? 'low' : '');
-  
-  $('inqVisual').innerHTML = p.image ? `<img src="${p.image}" style="max-width:85%;max-height:85%;object-fit:contain;">` : p.icon;
-  
-  const orderMsg = encodeURIComponent(`Hello TorqueLab, I would like to order: ${p.name} (${p.number}) - ${formatBDT(p.price)}`);
-  $('inqWaBtn').onclick = () => window.open(`https://wa.me/8801710292929?text=${orderMsg}`, '_blank');
-  $('inqCallBtn').onclick = () => window.location.href = 'tel:01710292929';
-  
-  $('inquireModal').classList.add('show');
+function renderAdminProducts() {
+  const list = document.getElementById('adminProductList');
+  list.innerHTML = products.map(p => `
+    <div class="product-row">
+      <div class="row-info">
+        <strong>${p.name} (${p.num})</strong>
+        <small>${p.category} | ৳${p.price} | ${p.compat}</small>
+      </div>
+      <button class="btn tiny" onclick="editProduct('${p.id}')">✏ Edit</button>
+      <button class="btn tiny danger" onclick="deleteProduct('${p.id}')">🗑 Delete</button>
+    </div>
+  `).join('');
 }
 
-// Avro Phonetic Typing Converter
-const avroPatterns = [
-  ['kkh', 'ক্ষ'], ['ggn', 'গ্ন'], ['gdh', 'গ্ধ'], ['kth', 'ক্থ'], ['ksh', 'ক্ষ'],
-  ['cch', 'চ্ছ'], ['jhh', 'ঝ'], ['tth', 'ঠ'], ['ddh', 'ঢ'], ['tth', 'থ'],
-  ['ddh', 'ধ'], ['shh', 'ষ'], ['ngkh', 'ঙ্খ'], ['nggh', 'ঙ্ঘ'], ['ngk', 'ঙ্ক'],
-  ['ngg', 'ঙ্গ'], ['nch', 'ঞ্চ'], ['njh', 'ঞ্জ'], ['nch', 'ঞ্ছ'], ['nj', 'ঞ্জ'],
-  ['sth', 'স্থ'], ['sph', 'স্ফ'], ['skt', 'স্ক'], ['spt', 'স্প'],
-  ['kh', 'খ'], ['gh', 'ঘ'], ['ch', 'ছ'], ['jh', 'ঝ'], ['th', 'থ'],
-  ['dh', 'ধ'], ['ph', 'ফ'], ['bh', 'ভ'], ['sh', 'শ'], ['Sh', 'ষ'],
-  ['Th', 'ঠ'], ['Dh', 'ঢ'], ['Rh', 'ঢ়'], ['ng', 'ঙ'], ['aO', 'অ'],
-  ['oi', 'ঐ'], ['ou', 'ৌ'], ['ou', 'ঔ'], ['aa', 'আ'], ['ee', 'ঈ'],
-  ['oo', 'ঊ'], ['ri', 'ঋ'], ['k', 'ক'], ['g', 'গ'], ['c', 'চ'],
-  ['j', 'জ'], ['t', 'ত'], ['d', 'দ'], ['p', 'প'], ['f', 'ফ'],
-  ['b', 'ব'], ['m', 'ম'], ['z', 'য'], ['r', 'র'], ['l', 'ল'],
-  ['s', 'স'], ['h', 'হ'], ['R', 'ড়'], ['y', 'য়'], ['T', 'ট'],
-  ['D', 'ড'], ['N', 'ণ'], ['n', 'ন'], ['w', 'ও'], ['o', 'ো'],
-  ['a', 'া'], ['i', 'ি'], ['I', 'ী'], ['u', 'ু'], ['U', 'ূ'],
-  ['e', 'ে'], ['O', 'ও'], ['e', 'এ'], ['a', 'অ']
-];
+// 3D Visualizer Logic
+function handle3DRotate(e, elem) {
+  const rect = elem.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width / 2;
+  const y = e.clientY - rect.top - rect.height / 2;
+  const visual = elem.querySelector('.part-visual');
+  visual.style.setProperty('--ry', `${x * 0.25}deg`);
+  visual.style.setProperty('--rx', `${-y * 0.25}deg`);
+}
 
-function parseAvro(str) {
-  let res = '';
-  let i = 0;
-  while (i < str.length) {
-    let matched = false;
-    for (let [eng, bng] of avroPatterns) {
-      if (str.substr(i, eng.length) === eng) {
-        res += bng;
-        i += eng.length;
-        matched = true;
-        break;
-      }
-    }
-    if (!matched) {
-      res += str[i];
-      i++;
-    }
+function reset3DRotate(elem) {
+  const visual = elem.querySelector('.part-visual');
+  visual.style.setProperty('--ry', '0deg');
+  visual.style.setProperty('--rx', '0deg');
+}
+
+function handle3DTouchRotate(e, elem) {
+  if (e.touches.length > 0) {
+    const touch = e.touches[0];
+    const rect = elem.getBoundingClientRect();
+    const x = touch.clientX - rect.left - rect.width / 2;
+    const y = touch.clientY - rect.top - rect.height / 2;
+    const visual = elem.querySelector('.part-visual');
+    visual.style.setProperty('--ry', `${x * 0.25}deg`);
+    visual.style.setProperty('--rx', `${-y * 0.25}deg`);
   }
-  return res;
 }
 
-function attachAvroTyping(inputEl) {
-  if (!inputEl) return;
-  inputEl.addEventListener('input', () => {
-    const modeSelect = $('banglaTypingMode');
-    if (modeSelect && modeSelect.value === 'avro') {
-      const original = inputEl.value;
-      const parsed = parseAvro(original);
-      if (original !== parsed) {
-        inputEl.value = parsed;
-      }
-    }
-  });
+// Inquiry Modal Logic
+function openInquiry(id) {
+  const p = products.find(item => item.id == id);
+  if (!p) return;
+  document.getElementById('inqCategory').textContent = p.category;
+  document.getElementById('inqTitle').textContent = p.name;
+  document.getElementById('inqVisual').textContent = p.visual || '⚙️';
+  document.getElementById('inqStock').textContent = p.stock;
+  document.getElementById('inqPartNum').textContent = p.num;
+  document.getElementById('inqPrice').innerHTML = `৳${Number(p.price).toLocaleString('bn-BD')} <small style="font-size:12px;color:var(--muted)">BDT</small>`;
+  document.getElementById('inqDesc').textContent = p.desc;
+  document.getElementById('inqCompat').textContent = p.compat;
+
+  document.getElementById('inqWaBtn').onclick = () => {
+    window.open(`https://wa.me/8801710292929?text=${encodeURIComponent('Hello TorqueLab, I am interested in: ' + p.name + ' (' + p.num + ')')}`, '_blank');
+  };
+  document.getElementById('inqCallBtn').onclick = () => window.location.href = 'tel:01710292929';
+
+  document.getElementById('inquireModal').classList.add('show');
 }
 
-const layouts = {
-  avro: [
-    ['অ','আ','ই','ঈ','উ','ঊ','ঋ','এ','ঐ','ও','ঔ'],
-    ['ক','খ','গ','ঘ','ঙ','চ','ছ','জ','ঝ','ঞ'],
-    ['ট','ঠ','ড','ঢ','ণ','ত','থ','দ','ধ','ন'],
-    ['প','ফ','ব','ভ','ম','য','র','ল','শ','ষ','স','হ'],
-    ['া','ি','ী','ু','ূ','ৃ','ে','ৈ','ো','ৌ','্','ং','ঃ','ঁ']
-  ],
-  unijoy: [
-    ['১','২','৩','৪','৫','৬','৭','৮','৯','০'],
-    ['ৌ','ৈ','া','ী','ূ','ব','হ','গ','দ','জ','ড়'],
-    ['ো','ে','্','ি','ু','র','ন','স','ত','চ','খ'],
-    ['ং','ঃ','ঁ','ম','ফ','য়','ল','ক','ঠ','প']
-  ],
-  probhat: [
-    ['১','২','৩','৪','৫','৬','৭','৮','৯','০'],
-    ['দ','ন','া','ে','র','ত','য','ু','ি','ো','প'],
-    ['শ','স','দ','ফ','গ','হ','জ','ক','ল'],
-    ['জ','চ','ভ','ব','ন','ম']
-  ]
+// Admin Logic
+document.getElementById('adminOpen').onclick = () => {
+  if (isAdmin) {
+    document.getElementById('adminModal').classList.add('show');
+  } else {
+    document.getElementById('authModal').classList.add('show');
+  }
 };
 
-function setupBanglaKeyboard() {
-  const toggleBtn = $('toggleGlobalKb');
-  const kb = $('globalKb');
-  const searchInput = $('search');
-  const modeSelect = $('banglaTypingMode');
-  const keyArea = $('kbKeyArea');
+document.getElementById('authClose').onclick = () => document.getElementById('authModal').classList.remove('show');
+document.getElementById('adminClose').onclick = () => document.getElementById('adminModal').classList.remove('show');
+document.getElementById('inqClose').onclick = () => document.getElementById('inquireModal').classList.remove('show');
 
-  attachAvroTyping(searchInput);
-  attachAvroTyping($('partName'));
-  attachAvroTyping($('partCompat'));
-  attachAvroTyping($('partDesc'));
-
-  function renderLayout(mode) {
-    const layout = layouts[mode] || layouts['avro'];
-    keyArea.innerHTML = layout.map(row => `
-      <div class="kb-row">
-        ${row.map(char => `<button class="kb-btn" type="button">${char}</button>`).join('')}
-      </div>
-    `).join('');
-
-    keyArea.querySelectorAll('.kb-btn').forEach(btn => {
-      btn.onclick = (e) => {
-        e.preventDefault();
-        const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')
-          ? document.activeElement 
-          : searchInput;
-
-        activeEl.value += btn.textContent;
-        activeEl.dispatchEvent(new Event('input'));
-        activeEl.focus();
-      };
-    });
-  }
-
-  toggleBtn.onclick = () => {
-    kb.style.display = kb.style.display === 'none' ? 'flex' : 'none';
-    renderLayout(modeSelect.value);
-  };
-
-  modeSelect.onchange = () => {
-    if (kb.style.display !== 'none') {
-      renderLayout(modeSelect.value);
-    }
-  };
-
-  $('kbSpace').onclick = (e) => {
-    e.preventDefault();
-    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
-    activeEl.value += ' ';
-    activeEl.dispatchEvent(new Event('input'));
-    activeEl.focus();
-  };
-
-  $('kbBack').onclick = (e) => {
-    e.preventDefault();
-    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
-    activeEl.value = activeEl.value.slice(0, -1);
-    activeEl.dispatchEvent(new Event('input'));
-    activeEl.focus();
-  };
-
-  $('kbClear').onclick = (e) => {
-    e.preventDefault();
-    const activeEl = document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') ? document.activeElement : searchInput;
-    activeEl.value = '';
-    activeEl.dispatchEvent(new Event('input'));
-    activeEl.focus();
-  };
-}
-
-function updateAuthUI() {
-  const badge = $('userBadge');
-  if (currentUserRole === 'admin') {
-    badge.innerHTML = '⚡ Admin';
-    badge.style.color = 'var(--red)';
-    badge.style.borderColor = 'var(--red)';
+document.getElementById('authForm').onsubmit = (e) => {
+  e.preventDefault();
+  const pass = document.getElementById('loginPass').value;
+  if (pass === 'admin' || pass === '123456') {
+    isAdmin = true;
+    document.getElementById('userBadge').textContent = '⚡ Admin Mode Active';
+    document.getElementById('authModal').classList.remove('show');
+    document.getElementById('adminModal').classList.add('show');
+    showToast('Admin Access Granted!');
   } else {
-    badge.innerHTML = '🔑 Visitor Mode';
-    badge.style.color = 'var(--blue)';
-    badge.style.borderColor = 'var(--line)';
+    showToast('Wrong Admin Password!');
   }
-}
+};
 
-function applyBrand(){
-  const n = settings.name || 'TorqueLab';
-  $('brandHeader').textContent = n.toUpperCase();
-  $('heroName').innerHTML = esc(n).toUpperCase() + '<br>PRECISION PERFORMANCE.';
-  $('heroTag').textContent = settings.tag;
-  $('footerText').textContent = (n + ' · Precision in every part' + (settings.contact ? ' · Hotline: ' + settings.contact : ''));
-  $('brandMark').textContent = n.slice(0,1).toUpperCase();
-  
-  if (settings.logo) {
-    $('brandMark').style.backgroundImage = `url("${settings.logo}")`;
-    $('brandMark').style.backgroundSize = 'cover';
-    $('brandMark').style.color = 'transparent';
-  } else {
-    $('brandMark').style.backgroundImage = 'none';
-    $('brandMark').style.color = 'var(--green-primary)';
-  }
-
-  if ($('logoPreview')) {
-    $('logoPreview').src = settings.logo || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52"><rect width="52" height="52" fill="#eaf3ec"/><text x="26" y="35" text-anchor="middle" fill="#1e6b3e" font-size="28" font-family="Arial">T</text></svg>');
-  }
-}
-
-function drawFilters(){
-  const cats = ['All','Engine','Brakes','Suspension','Accessories'];
-  $('filters').innerHTML = cats.map(c => `<button class="chip ${filter===c?'active':''}" data-cat="${c}">${c}</button>`).join('') + `<select class="chip" id="compatFilter" aria-label="Filter by vehicle" style="max-width:170px;"><option value="">All vehicles</option>${[...new Set(products.flatMap(p => p.compat ? p.compat.split(',').map(s=>s.trim()) : []))].map(x => `<option>${esc(x)}</option>`).join('')}</select>`;
-  $('filters').querySelectorAll('[data-cat]').forEach(b => b.onclick = () => { filter = b.dataset.cat; drawFilters(); renderProducts(); });
-  $('compatFilter').onchange = renderProducts;
-}
-
-/* STRICT Interactive 3D Model rotation (NO Auto-spin, stays fixed on user input) */
-function wireViewers(){
-  document.querySelectorAll('.viewer').forEach(v => {
-    let down = false, x0 = 0, y0 = 0, rx = 0, ry = 0, zoom = 1;
-    const art = v.querySelector('.part-visual');
-    if (!art) return;
-    
-    v.onpointerdown = e => { down = true; x0 = e.clientX; y0 = e.clientY; v.setPointerCapture(e.pointerId); };
-    v.onpointermove = e => {
-      if(!down) return;
-      ry += (e.clientX - x0) * 0.65;
-      rx -= (e.clientY - y0) * 0.5;
-      x0 = e.clientX; y0 = e.clientY;
-      art.style.setProperty('--ry', ry + 'deg');
-      art.style.setProperty('--rx', rx + 'deg');
-      art.style.transform = `perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
-    };
-    v.onpointerup = () => down = false;
-    v.onpointercancel = () => down = false;
-    v.onwheel = e => {
-      e.preventDefault();
-      zoom = Math.max(0.7, Math.min(1.45, zoom - e.deltaY * 0.001));
-      art.style.transform = `perspective(500px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${zoom})`;
-    };
-  });
-}
-
-function renderAdminList(){
-  $('adminProductList').innerHTML = products.map(p => `
-    <div class="product-row">
-      <span class="row-icon" style="font-size:24px;">${p.image ? '<img src="'+p.image+'" style="width:32px;height:32px;object-fit:contain">' : p.icon}</span>
-      <div class="row-info">
-        <strong>${esc(p.name)}</strong>
-        <small>${esc(p.number)} · ${esc(p.category)} · ${formatBDT(p.price)}</small>
-      </div>
-      <button class="btn tiny" data-edit="${esc(p.id)}">Edit</button>
-      <button class="btn tiny danger" data-delete="${esc(p.id)}">Delete</button>
-    </div>
-  `).join('') || '<div class="empty">No products yet. Add your first part.</div>';
-
-  document.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => openEdit(b.dataset.edit));
-  document.querySelectorAll('[data-delete]').forEach(b => b.onclick = async () => {
-    if (!requireAdmin()) return;
-    if (!confirm('এই product টি মুছে ফেলবেন?')) return;
-    try {
-      await TorqueDB.deleteProduct(b.dataset.delete);
-      products = products.filter(p => p.id !== b.dataset.delete);
-      renderAdminList(); drawFilters(); renderProducts();
-      toast('Product permanently deleted');
-    } catch (e) { console.error(e); toast('Delete হয়নি: ' + (e.code || e.message)); }
-  });
-}
-
-function openEdit(id){
-  const p = products.find(x => x.id === id);
-  $('productForm').reset();
-  $('productId').value = p?.id || '';
-  $('editTitle').textContent = p ? 'Edit product' : 'Add product';
-  if(p){
-    $('partName').value = p.name;
-    $('partNumber').value = p.number;
-    $('partCategory').value = p.category;
-    $('partPrice').value = p.price;
-    $('partStock').value = p.stock;
-    $('partCompat').value = p.compat || '';
-    $('partDesc').value = p.description || '';
-    $('partImage').dataset.current = p.image || '';
-  } else {
-    $('partImage').dataset.current = '';
-  }
-  $('editModal').classList.add('show');
-}
-
-// Global Event Handlers Initialization
-window.addEventListener('DOMContentLoaded', () => {
-  setupBanglaKeyboard();
-
-  if (!window.TorqueDB || !TorqueDB.configured) $('dbBanner').style.display = 'block';
-
-  // Live public data (সব ডিভাইসে একই data)
-  if (window.TorqueDB) {
-    TorqueDB.listen(
-      s => { if (s) { settings = { ...settings, ...s }; applyBrand(); } },
-      list => {
-        products = list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-        drawFilters(); renderProducts();
-        if ($('adminModal').classList.contains('show')) renderAdminList();
-      }
-    );
-    // Login state reload এর পরেও মনে থাকে
-    TorqueDB.onAuth(isAdmin => {
-      currentUserRole = isAdmin ? 'admin' : 'visitor';
-      updateAuthUI();
-    });
-  }
-
-  // 👁 Password show/hide
-  $('togglePass').onclick = () => {
-    const i = $('loginPass');
-    const show = i.type === 'password';
-    i.type = show ? 'text' : 'password';
-    $('togglePass').textContent = show ? '🙈' : '👁';
+// Form Save / Add / Edit
+document.getElementById('productForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('pId').value || Date.now().toString();
+  const newProduct = {
+    id,
+    name: document.getElementById('pName').value,
+    num: document.getElementById('pNum').value,
+    category: document.getElementById('pCategory').value,
+    price: Number(document.getElementById('pPrice').value),
+    compat: document.getElementById('pCompat').value,
+    stock: document.getElementById('pStock').value,
+    visual: document.getElementById('pVisual').value || '⚙️',
+    desc: document.getElementById('pDesc').value
   };
 
-  $('logoutBtn').onclick = async () => {
-    await TorqueDB.logout();
-    $('adminModal').classList.remove('show');
-    toast('Logged out');
-  };
-
-  $('authClose').onclick = () => $('authModal').classList.remove('show');
-
-  $('authForm').onsubmit = async (e) => {
-    e.preventDefault();
-    if (!window.TorqueDB || !TorqueDB.configured) { toast('Database সংযুক্ত নেই (Firebase config বসান)'); return; }
-    const btn = $('authSubmitBtn');
-    btn.disabled = true;
-    try {
-      await TorqueDB.login($('loginPass').value);
-      currentUserRole = 'admin';
-      updateAuthUI();
-      $('authModal').classList.remove('show');
-      $('loginPass').value = '';
-      $('loginPass').type = 'password';
-      $('togglePass').textContent = '👁';
-      $('adminModal').classList.add('show');
-      renderAdminList();
-      // database প্রথমবার ফাঁকা থাকলে default data বসাও
-      TorqueDB.seedIfEmpty(settings, products).catch(console.error);
-      toast('Admin unlocked ✓');
-    } catch (err) {
-      console.error(err);
-      toast(['auth/invalid-credential','auth/wrong-password','auth/user-not-found'].includes(err.code) ? 'Incorrect password' : 'Login error: ' + (err.code || err.message));
-    }
-    btn.disabled = false;
-  };
-
-  $('inqClose').onclick = () => $('inquireModal').classList.remove('show');
-  $('search').oninput = e => { query = e.target.value; renderProducts(); };
-
-  $('adminOpen').onclick = () => {
-    if (currentUserRole === 'admin') {
-      $('adminModal').classList.add('show');
-      renderAdminList();
+  if (supabaseClient) {
+    const { error } = await supabaseClient.from('products').upsert([newProduct]);
+    if (error) {
+      showToast('Error syncing with Supabase: ' + error.message);
     } else {
-      $('authModal').classList.add('show');
+      showToast('Product synced with Supabase!');
     }
-  };
-
-  $('adminClose').onclick = $('doneAdmin').onclick = () => $('adminModal').classList.remove('show');
-  $('editClose').onclick = $('cancelEdit').onclick = () => $('editModal').classList.remove('show');
-  $('addProduct').onclick = () => openEdit('');
-
-  document.querySelectorAll('.tab').forEach(t => {
-    if (!t.dataset.pane) return;
-    t.onclick = () => {
-      document.querySelectorAll('.tabs .tab').forEach(x => { if (x.dataset.pane) x.classList.toggle('active', x === t); });
-      document.querySelectorAll('.pane').forEach(x => x.classList.toggle('active', x.id === t.dataset.pane));
-      if (t.dataset.pane === 'companyPane') {
-        $('companyName').value = settings.name;
-        $('companyTag').value = settings.tag;
-        $('companyContact').value = settings.contact;
-        $('logoPreview').src = settings.logo || $('logoPreview').src;
-      }
-    };
-  });
-
-  ['companyName', 'companyTag', 'companyContact'].forEach(id => {
-    const el = $(id);
-    if (el) {
-      el.oninput = () => {
-        if (!requireAdmin()) return;
-        settings.name = $('companyName').value || 'TorqueLab';
-        settings.tag = $('companyTag').value;
-        settings.contact = $('companyContact').value;
-        applyBrand();
-        syncSettings();
-      };
-    }
-  });
-
-  if ($('logoUpload')) {
-    $('logoUpload').onchange = e => {
-      const f = e.target.files[0];
-      if (f && requireAdmin()) {
-        compressImage(f, 256, 0.85).then(data => { settings.logo = data; applyBrand(); syncSettings(); });
-      }
-    };
   }
 
-  if ($('removeLogo')) {
-    $('removeLogo').onclick = () => {
-      if (!requireAdmin()) return;
-      settings.logo = '';
-      applyBrand();
-      syncSettings();
-    };
+  const existingIdx = products.findIndex(p => p.id == id);
+  if (existingIdx > -1) {
+    products[existingIdx] = newProduct;
+  } else {
+    products.push(newProduct);
   }
 
-  if ($('productForm')) {
-    $('productForm').onsubmit = async e => {
-      e.preventDefault();
-      if (!requireAdmin()) return;
-      const id = $('productId').value || 'p' + Date.now();
-      const old = products.find(p => p.id === id);
-      let image = $('partImage').dataset.current || '';
-      const file = $('partImage').files[0];
-      try {
-        if (file) image = await compressImage(file);
-        const p = {
-          id,
-          name: $('partName').value.trim(),
-          number: $('partNumber').value.trim(),
-          category: $('partCategory').value,
-          price: Number($('partPrice').value),
-          stock: $('partStock').value,
-          compat: $('partCompat').value.trim(),
-          description: $('partDesc').value.trim(),
-          image,
-          icon: old?.icon || '⚙️',
-          createdAt: old?.createdAt || Date.now()
-        };
-        await TorqueDB.saveProduct(p);
-        if (old) products = products.map(x => x.id === id ? p : x);
-        else products.unshift(p);
-        $('editModal').classList.remove('show');
-        renderAdminList(); drawFilters(); renderProducts();
-        toast(old ? 'Product updated ✓' : 'Product saved permanently ✓');
-      } catch (err) {
-        console.error(err);
-        toast('Save হয়নি: ' + (err.code || err.message));
-      }
-    };
-  }
-
-  [$('authModal'), $('inquireModal'), $('adminModal'), $('editModal')].forEach(o => {
-    if (!o) return;
-    o.addEventListener('click', e => {
-      if (e.target === o) o.classList.remove('show');
-    });
-  });
-
-  applyBrand();
-  drawFilters();
   renderProducts();
-  updateAuthUI();
+  renderAdminProducts();
+  document.getElementById('productForm').reset();
+  document.getElementById('pId').value = '';
+  showToast('Product Saved!');
+};
+
+function editProduct(id) {
+  const p = products.find(item => item.id == id);
+  if (!p) return;
+  document.getElementById('pId').value = p.id;
+  document.getElementById('pName').value = p.name;
+  document.getElementById('pNum').value = p.num;
+  document.getElementById('pCategory').value = p.category;
+  document.getElementById('pPrice').value = p.price;
+  document.getElementById('pCompat').value = p.compat;
+  document.getElementById('pStock').value = p.stock;
+  document.getElementById('pVisual').value = p.visual;
+  document.getElementById('pDesc').value = p.desc;
+
+  // Switch tab to form
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-pane="paneAdd"]').classList.add('active');
+  document.getElementById('paneAdd').classList.add('active');
+}
+
+async function deleteProduct(id) {
+  if (!confirm('Are you sure you want to delete this product?')) return;
+  if (supabaseClient) {
+    await supabaseClient.from('products').delete().eq('id', id);
+  }
+  products = products.filter(p => p.id != id);
+  renderProducts();
+  renderAdminProducts();
+  showToast('Product Deleted');
+}
+
+// Tab Switching
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.pane).classList.add('active');
+  };
 });
+
+// Search and Initial Setup
+document.getElementById('search').oninput = renderProducts;
+
+window.onload = () => {
+  initSupabase();
+  renderFilters();
+  renderProducts();
+  renderAdminProducts();
+};
 </script>
 </body>
 </html>
