@@ -163,18 +163,18 @@ button { cursor: pointer; touch-action: manipulation; }
   position: relative;
   background: linear-gradient(125deg, #ffffff 10%, #e8f5ec 70%, #d2eada 100%);
   box-shadow: var(--shadow);
+  padding-bottom: 70px;
 }
 
-/* Dynamic Road & Auto Rickshaw Animation Background Styles */
+/* Hero Animated Road & Rickshaw Styling */
 .hero-bg-animation {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;
+  z-index: 1;
 }
 
-/* Moving Road Lines at bottom */
 .road-container {
   position: absolute;
   bottom: 0;
@@ -191,7 +191,7 @@ button { cursor: pointer; touch-action: manipulation; }
   width: 200%;
   height: 4px;
   background: repeating-linear-gradient(90deg, #ffffff 0px, #ffffff 30px, transparent 30px, transparent 60px);
-  animation: moveRoad 1.2s linear infinite !important;
+  animation: moveRoad 1.2s linear infinite;
 }
 
 @keyframes moveRoad {
@@ -199,58 +199,32 @@ button { cursor: pointer; touch-action: manipulation; }
   100% { transform: translateY(-50%) translateX(-60px); }
 }
 
-/* Vector Auto-Rickshaw Container */
 .animated-rickshaw-wrapper {
   position: absolute;
-  bottom: 22px;
+  bottom: 12px;
   right: 5%;
-  width: clamp(180px, 28vw, 300px);
+  width: clamp(180px, 26vw, 290px);
+  z-index: 2;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,0.25));
+  /* রিকশার ডানে-বামে ড্রাইভ অ্যানিমেশন বাদ দেওয়া হয়েছে যাতে স্থির থাকে */
+  animation: rickshawVibrate 0.2s ease-in-out infinite;
+  transition: transform 0.3s ease-out;
+}
+
+.animated-rickshaw-wrapper img {
+  width: 100%;
   height: auto;
-  filter: drop-shadow(0 15px 18px rgba(0,0,0,0.3));
+  display: block;
 }
 
-/* Speed / Wind Dash Lines */
-.speed-line {
-  display: none;
-}
-
-@keyframes autoDrive {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-3px); }
-}
-
-/* Rotating Wheel Animations */
-.wheel-rotate {
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: rotateWheel 0.3s linear infinite;
-}
-
-@keyframes rotateWheel {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Speed / Wind Dash Lines */
-.speed-line {
-  position: absolute;
-  height: 2px;
-  background: rgba(46, 155, 88, 0.4);
-  border-radius: 2px;
-  animation: moveSpeedLine 0.8s linear infinite;
-}
-.speed-line-1 { top: 35%; width: 80px; right: -80px; animation-delay: 0s; }
-.speed-line-2 { top: 60%; width: 120px; right: -120px; animation-delay: 0.3s; }
-.speed-line-3 { top: 80%; width: 60px; right: -60px; animation-delay: 0.15s; }
-
-@keyframes moveSpeedLine {
-  0% { transform: translateX(0); opacity: 0.8; }
-  100% { transform: translateX(-500px); opacity: 0; }
+@keyframes rickshawVibrate {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
 }
 
 .hero-copy {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   max-width: 650px;
 }
 
@@ -320,35 +294,23 @@ button { cursor: pointer; touch-action: manipulation; }
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow);
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.card.reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
+.card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(30, 107, 62, 0.12); }
 .viewer {
-  height: 220px;
+  height: 200px;
   position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
   background: radial-gradient(circle at center, #ffffff 0%, #eef6f0 80%);
-  touch-action: pan-y pinch-zoom;
-  cursor: grab;
   border-bottom: 1px solid #eef4f0;
 }
-.viewer:active { cursor: grabbing; }
 .part-visual-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   padding: 12px;
-  transition: transform 0.2s ease-out;
-  user-select: none;
-  pointer-events: none;
 }
 .stock {
   position: absolute;
@@ -366,11 +328,11 @@ button { cursor: pointer; touch-action: manipulation; }
 
 .card-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
 .meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
-.card h3 { font-size: 17px; margin: 8px 0 5px; color: #0d2113; font-weight: 800; }
+.card h3 { font-size: 16px; margin: 8px 0 5px; color: #0d2113; font-weight: 800; }
 .desc { font-size: 12px; color: var(--muted); min-height: 36px; line-height: 1.45; }
 .compat { font-size: 11px; color: var(--green-primary); font-weight: 700; margin: 10px 0; background: var(--green-light); padding: 4px 10px; border-radius: 8px; display: inline-block; align-self: flex-start; }
 .card-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 12px; margin-top: auto; gap: 8px; }
-.price { font-weight: 900; font-size: 20px; color: var(--green-primary); }
+.price { font-weight: 900; font-size: 18px; color: var(--green-primary); }
 .card-actions { display: flex; gap: 6px; }
 
 .empty { grid-column: 1/-1; text-align: center; padding: 45px 20px; border: 1px dashed var(--line); border-radius: 16px; color: var(--muted); background: #ffffff; }
@@ -413,7 +375,7 @@ button { cursor: pointer; touch-action: manipulation; }
 .footer-contacts a { color: var(--green-primary); text-decoration: none; }
 
 .detail-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
-.detail-viewer { height: 280px; border-radius: 16px; border: 1px solid var(--line); background: radial-gradient(circle at center, #ffffff 0%, #eaf5ed 100%); }
+.detail-viewer { height: 260px; border-radius: 16px; border: 1px solid var(--line); background: radial-gradient(circle at center, #ffffff 0%, #eaf5ed 100%); position: relative; }
 .detail-info { display: flex; flex-direction: column; gap: 12px; }
 .detail-badge { display: inline-block; padding: 4px 10px; border-radius: 14px; background: var(--green-light); color: var(--green-primary); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
 .detail-price { font-size: 26px; font-weight: 900; color: var(--green-primary); }
@@ -425,14 +387,13 @@ button { cursor: pointer; touch-action: manipulation; }
 .lightbox-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(8px);
   z-index: 300;
   display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
-  cursor: zoom-out;
 }
 .lightbox-modal.show { display: flex; }
 .lightbox-content {
@@ -440,8 +401,6 @@ button { cursor: pointer; touch-action: manipulation; }
   max-height: 90vh;
   object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease;
 }
 .lightbox-close {
   position: absolute;
@@ -457,9 +416,7 @@ button { cursor: pointer; touch-action: manipulation; }
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: 0.2s;
 }
-.lightbox-close:hover { background: rgba(255,255,255,0.4); }
 
 /* Cart Drawer Styling */
 .cart-item { display: flex; gap: 12px; align-items: center; padding: 10px; border-bottom: 1px solid var(--line); }
@@ -493,7 +450,6 @@ button { cursor: pointer; touch-action: manipulation; }
   .section-head { align-items: stretch; flex-direction: column; gap: 12px; }
   .search { width: 100%; }
   .detail-grid { grid-template-columns: 1fr; }
-  .detail-viewer { height: 210px; }
 }
 @media(max-width: 560px) {
   .topbar { height: 58px; padding: 0 12px; }
@@ -505,51 +461,18 @@ button { cursor: pointer; touch-action: manipulation; }
   .hero h1 { font-size: 22px; }
   .hero p { font-size: 12px; margin-bottom: 12px; }
   .product-grid { grid-template-columns: 1fr; gap: 14px; }
-  .viewer { height: 200px; }
+  .viewer { height: 180px; }
   .form-grid { grid-template-columns: 1fr; }
   .modal { max-height: 94vh; border-radius: 16px; }
   .modal-body { padding: 14px; }
   .modal-head { padding: 12px 14px; }
   .spec-box { grid-template-columns: 1fr; }
 }
-
-.db-banner {
-  background: #dc2626; color: #fff; font-size: 12px; font-weight: 700;
-  text-align: center; padding: 8px 12px; display: none;
-}
-
-/* Loading Spinner & Skeleton */
-.loading-skeleton {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  color: var(--muted);
-  font-weight: 700;
-  gap: 12px;
-}
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 4px solid var(--line);
-  border-top-color: var(--green-primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
 </style>
-
-<!-- Supabase SDK Link -->
+<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- GitHub Repository local supabase.js import -->
-<script src="./supabase.js"></script>
 </head>
 <body>
-<div class="db-banner" id="dbBanner">⚠ Supabase Database কানেক্ট করা নেই! `supabase.js` ফাইলে SUPABASE_URL ও SUPABASE_ANON_KEY যোগ করুন।</div>
 
 <div class="contact-bar">
   <div>📞 হটলাইন: <strong id="topPhoneDisplay">01710292929</strong></div>
@@ -577,131 +500,127 @@ button { cursor: pointer; touch-action: manipulation; }
 
 <main class="wrap">
   <section class="hero">
-    <!-- Dynamic Background Road & Rickshaw Animation -->
     <div class="hero-bg-animation">
-      <div class="speed-line speed-line-1"></div>
-      <div class="speed-line speed-line-2"></div>
-      <div class="speed-line speed-line-3"></div>
-      
-      <!-- Detailed Static Auto Rickshaw Visual -->
-      <div class="animated-rickshaw-wrapper">
-        <svg viewBox="0 0 340 240" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#f3f4f6" />
-              <stop offset="50%" stop-color="#9ca3af" />
-              <stop offset="100%" stop-color="#4b5563" />
-            </linearGradient>
-            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#10b981" />
-              <stop offset="50%" stop-color="#059669" />
-              <stop offset="100%" stop-color="#047857" />
-            </linearGradient>
-            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fbbf24" />
-              <stop offset="100%" stop-color="#d97706" />
-            </linearGradient>
-            <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.8" />
-              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.4" />
-            </linearGradient>
-            <pattern id="camoPattern" width="20" height="20" patternUnits="userSpaceOnUse">
-              <rect width="20" height="20" fill="#a3e635"/>
-              <path d="M0 0h10v10H0z" fill="#65a30d"/>
-              <path d="M10 10h10v10H10z" fill="#4d7c0f"/>
-              <path d="M5 5h8v8H5z" fill="#a16207"/>
-            </pattern>
-            <filter id="shadow3d" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="3" dy="5" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/>
-            </filter>
-          </defs>
-
-          <!-- Headlight Beam Arc -->
-          <polygon points="45,155 -40,120 -40,190" fill="rgba(253, 224, 71, 0.25)"/>
-
-          <!-- Front Wheel -->
-          <g style="transform-origin: 65px 182px;">
-            <circle cx="65" cy="182" r="26" fill="#18181b" stroke="#52525b" stroke-width="4"/>
-            <circle cx="65" cy="182" r="16" fill="url(#chromeGrad)"/>
-            <circle cx="65" cy="182" r="6" fill="#18181b"/>
-            <line x1="65" y1="156" x2="65" y2="208" stroke="#e5e7eb" stroke-width="2"/>
-            <line x1="39" y1="182" x2="91" y2="182" stroke="#e5e7eb" stroke-width="2"/>
-          </g>
-
-          <!-- Rear Wheel (Left Side) -->
-          <g style="transform-origin: 215px 185px;">
-            <circle cx="215" cy="185" r="24" fill="#18181b" stroke="#52525b" stroke-width="4"/>
-            <circle cx="215" cy="185" r="14" fill="url(#chromeGrad)"/>
-            <circle cx="215" cy="185" r="5" fill="#18181b"/>
-            <line x1="215" y1="161" x2="215" y2="209" stroke="#e5e7eb" stroke-width="2"/>
-            <line x1="191" y1="185" x2="239" y2="185" stroke="#e5e7eb" stroke-width="2"/>
-          </g>
-
-          <!-- Rear Wheel (Right Side 3D offset) -->
-          <g style="transform-origin: 290px 180px;">
-            <circle cx="290" cy="180" r="28" fill="#18181b" stroke="#3f3f46" stroke-width="4"/>
-            <circle cx="290" cy="180" r="18" fill="url(#chromeGrad)"/>
-            <circle cx="290" cy="180" r="7" fill="#18181b"/>
-            <line x1="290" y1="152" x2="290" y2="208" stroke="#ffffff" stroke-width="2"/>
-            <line x1="262" y1="180" x2="318" y2="180" stroke="#ffffff" stroke-width="2"/>
-          </g>
-
-          <!-- Front Fork & Yellow Shock Absorber Springs -->
-          <g filter="url(#shadow3d)">
-            <line x1="65" y1="182" x2="95" y2="105" stroke="url(#chromeGrad)" stroke-width="7" stroke-linecap="round"/>
-            <rect x="80" y="125" width="10" height="40" rx="3" fill="url(#goldGrad)"/>
-            <line x1="80" y1="130" x2="90" y2="130" stroke="#78350f" stroke-width="2"/>
-            <line x1="80" y1="137" x2="90" y2="137" stroke="#78350f" stroke-width="2"/>
-            <line x1="80" y1="144" x2="90" y2="144" stroke="#78350f" stroke-width="2"/>
-            <line x1="80" y1="151" x2="90" y2="151" stroke="#78350f" stroke-width="2"/>
-            <line x1="80" y1="158" x2="90" y2="158" stroke="#78350f" stroke-width="2"/>
-          </g>
-
-          <!-- Main Chassis Base Platform -->
-          <path d="M 85,168 L 315,168 L 315,140 Q 315,130 305,130 L 110,130 Q 95,130 85,142 Z" fill="url(#bodyGrad)" filter="url(#shadow3d)"/>
-          <rect x="120" y="162" width="185" height="12" fill="#27272a" rx="2"/>
-
-          <!-- Front Curved Stainless Steel Bumper Guard Grill -->
-          <path d="M 40,158 Q 30,135 60,85 L 105,85" stroke="url(#chromeGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <path d="M 35,165 Q 20,135 55,100" stroke="url(#chromeGrad)" stroke-width="4" fill="none"/>
-          <line x1="45" y1="155" x2="85" y2="155" stroke="url(#chromeGrad)" stroke-width="4"/>
-
-          <!-- Bright Headlight assembly -->
-          <circle cx="62" cy="150" r="12" fill="url(#chromeGrad)"/>
-          <circle cx="60" cy="150" r="9" fill="#fef08a" stroke="#eab308" stroke-width="1.5"/>
-
-          <!-- Front Windshield & Glass Frame -->
-          <path d="M 62,95 L 105,35 L 140,35 L 105,95 Z" fill="url(#glassGrad)" stroke="url(#chromeGrad)" stroke-width="3"/>
-
-          <!-- Camouflage Passenger Canopy/Roof Hood -->
-          <path d="M 100,32 L 315,30 Q 325,30 325,42 L 325,130 L 310,130 L 310,48 L 110,48 Z" fill="url(#camoPattern)" filter="url(#shadow3d)"/>
-          <!-- Yellow Golden Fringe Trim on Roof Hood -->
-          <rect x="98" y="44" width="228" height="8" fill="url(#goldGrad)"/>
-
-          <!-- Passenger Side Steel Bar Enclosure/Grill -->
-          <line x1="145" y1="52" x2="145" y2="130" stroke="url(#chromeGrad)" stroke-width="4"/>
-          <line x1="165" y1="52" x2="165" y2="130" stroke="url(#chromeGrad)" stroke-width="4"/>
-          <line x1="185" y1="52" x2="185" y2="130" stroke="url(#chromeGrad)" stroke-width="4"/>
-          <line x1="205" y1="52" x2="205" y2="130" stroke="url(#chromeGrad)" stroke-width="4"/>
-          <line x1="225" y1="52" x2="225" y2="130" stroke="url(#chromeGrad)" stroke-width="4"/>
-
-          <!-- Brown Cushioned Passenger Seats -->
-          <rect x="140" y="110" width="60" height="22" rx="4" fill="#b45309" stroke="#78350f" stroke-width="2"/>
-          <rect x="230" y="110" width="80" height="22" rx="4" fill="#b45309" stroke="#78350f" stroke-width="2"/>
-          <rect x="290" y="65" width="22" height="45" rx="4" fill="#b45309" stroke="#78350f" stroke-width="2"/>
-
-          <!-- Handlebar Steering Controls -->
-          <path d="M 95,108 L 115,102 L 122,112" stroke="#27272a" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <circle cx="122" cy="112" r="4" fill="#dc2626"/>
-
-          <!-- Rear Chrome Safety Guard Rail -->
-          <path d="M 315,130 L 328,130 L 328,168 L 305,168" stroke="url(#chromeGrad)" stroke-width="5" fill="none"/>
-        </svg>
-      </div>
-
-      <!-- Road Base -->
       <div class="road-container">
         <div class="road-line"></div>
+      </div>
+      <div class="animated-rickshaw-wrapper" id="heroAuto">
+        <!-- Realistic Mishuk Electric Tricycle SVG Graphic -->
+        <svg viewBox="0 0 320 180" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Patterned Roof Hood -->
+            <pattern id="camoRoof" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect width="20" height="20" fill="#a38025"/>
+              <circle cx="5" cy="5" r="4" fill="#3b5e2b"/>
+              <circle cx="15" cy="12" r="5" fill="#1b2e17"/>
+              <path d="M0,15 Q5,10 10,15 T20,15" stroke="#facc15" stroke-width="1.5" fill="none"/>
+            </pattern>
+            <!-- Light Beam Glow -->
+            <linearGradient id="mishukBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="30%" stop-color="#fef08a" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#fef08a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Ground Shadow -->
+          <ellipse cx="160" cy="166" rx="130" ry="8" fill="rgba(0,0,0,0.3)"/>
+
+          <!-- Rear Wheels (Dual Side View) -->
+          <g>
+            <circle cx="80" cy="142" r="22" fill="#1e293b"/>
+            <circle cx="80" cy="142" r="14" fill="#94a3b8"/>
+            <circle cx="80" cy="142" r="6" fill="#0f172a"/>
+            <path d="M 52,142 A 28,28 0 0 1 108,142" stroke="#0f172a" stroke-width="5" fill="none"/>
+          </g>
+
+          <!-- Front Wheel -->
+          <g>
+            <circle cx="245" cy="142" r="22" fill="#1e293b"/>
+            <circle cx="245" cy="142" r="14" fill="#cbd5e1"/>
+            <circle cx="245" cy="142" r="6" fill="#0f172a"/>
+            <!-- Front Mudguard -->
+            <path d="M 218,138 A 28,28 0 0 1 272,138" stroke="#166534" stroke-width="6" fill="none"/>
+          </g>
+
+          <!-- Yellow Dual Front Shocks (Distinctive Feature) -->
+          <g>
+            <line x1="238" y1="140" x2="225" y2="95" stroke="#eab308" stroke-width="7" stroke-linecap="round"/>
+            <line x1="248" y1="140" x2="235" y2="95" stroke="#ca8a04" stroke-width="7" stroke-linecap="round"/>
+            <!-- Shock Coils Overlay -->
+            <line x1="238" y1="135" x2="225" y2="100" stroke="#fef08a" stroke-width="4" stroke-dasharray="3,3"/>
+            <line x1="248" y1="135" x2="235" y2="100" stroke="#ffffff" stroke-width="4" stroke-dasharray="3,3"/>
+          </g>
+
+          <!-- Main Lower Metal Body Chassis (Teal / Green Color) -->
+          <path d="M 60,138 L 225,138 L 220,110 L 60,110 Z" fill="#0d9488"/>
+          <!-- Floor Board & Chrome Guard Rail -->
+          <rect x="55" y="132" width="168" height="6" fill="#0f766e" rx="2"/>
+          <path d="M 50,138 L 230,138" stroke="#cbd5e1" stroke-width="3"/>
+
+          <!-- Passenger Seating Cushion (Brown/Orange Seats) -->
+          <rect x="70" y="98" width="55" height="14" rx="3" fill="#ea580c"/>
+          <rect x="68" y="78" width="8" height="22" rx="2" fill="#c2410c"/>
+          
+          <!-- Driver Seat -->
+          <rect x="140" y="98" width="45" height="14" rx="3" fill="#ea580c"/>
+
+          <!-- Green Cabin Vertical Bars & Frame Structure -->
+          <g stroke="#0f766e" stroke-width="3.5" stroke-linecap="round">
+            <!-- Rear Back Pillar -->
+            <line x1="62" y1="110" x2="62" y2="35"/>
+            <!-- Mid Seat Pillars -->
+            <line x1="128" y1="110" x2="128" y2="35"/>
+            <line x1="134" y1="110" x2="134" y2="35"/>
+            <!-- Front Canopy Pillar -->
+            <line x1="188" y1="110" x2="188" y2="35"/>
+            
+            <!-- Horizontal Metal Side Safety Bars -->
+            <line x1="62" y1="75" x2="128" y2="75"/>
+            <path d="M 128,85 Q 160,85 175,85" fill="none"/>
+            <line x1="62" y1="55" x2="188" y2="55"/>
+            <line x1="68" y1="42" x2="182" y2="42"/>
+            <!-- Cage Grill Lines at Back -->
+            <line x1="80" y1="42" x2="80" y2="75" stroke-width="2"/>
+            <line x1="95" y1="42" x2="95" y2="75" stroke-width="2"/>
+            <line x1="110" y1="42" x2="110" y2="75" stroke-width="2"/>
+          </g>
+
+          <!-- Front Curved Chrome Handlebar Frame & Glass Windshield Frame -->
+          <path d="M 188,35 Q 215,35 238,80 L 225,95" fill="none" stroke="#94a3b8" stroke-width="3.5"/>
+          <path d="M 188,40 Q 210,40 230,80" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+          <!-- Transparent Front Windshield Glass -->
+          <path d="M 190,42 Q 210,42 228,80 L 190,80 Z" fill="#0891b2" opacity="0.25"/>
+          <line x1="195" y1="48" x2="220" y2="75" stroke="#ffffff" stroke-width="2" opacity="0.6"/>
+
+          <!-- Driver Handle Bar & Side Mirror -->
+          <path d="M 180,92 L 205,86 L 200,82" fill="none" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="205" cy="74" rx="3.5" ry="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="1.5"/>
+
+          <!-- Big Round Front Headlight (Prominent Feature) -->
+          <g>
+            <circle cx="232" cy="92" r="12" fill="#e2e8f0" stroke="#64748b" stroke-width="2.5"/>
+            <circle cx="232" cy="92" r="9" fill="#fef08a"/>
+            <circle cx="230" cy="90" r="4" fill="#ffffff"/>
+            <!-- Front Chrome Bumper Guard Bar around Light -->
+            <path d="M 220,110 L 246,110 L 246,85 L 225,85" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linejoin="round"/>
+            <!-- Beam Glow -->
+            <polygon points="238,86 315,65 315,115 238,98" fill="url(#mishukBeam)"/>
+          </g>
+
+          <!-- Side Indicator Lights -->
+          <circle cx="222" cy="98" r="3" fill="#f97316"/>
+
+          <!-- Mishuk Camo / Patterned Roof Canopy (Matching Picture) -->
+          <path d="M 55,36 L 195,36 L 190,20 Q 185,16 160,16 L 60,16 Q 55,16 55,20 Z" fill="url(#camoRoof)"/>
+          <rect x="55" y="34" width="140" height="5" fill="#facc15"/>
+          <!-- Yellow Fringe/Tassel Trim Details under Roof -->
+          <path d="M 55,39 Q 60,44 65,39 Q 70,44 75,39 Q 80,44 85,39 Q 90,44 95,39 Q 100,44 105,39 Q 110,44 115,39 Q 120,44 125,39 Q 130,44 135,39 Q 140,44 145,39 Q 150,44 155,39 Q 160,44 165,39 Q 170,44 175,39 Q 180,44 185,39 L 190,39" fill="none" stroke="#facc15" stroke-width="2"/>
+
+          <!-- Rear Pattern Back Curtain / Window Opening -->
+          <rect x="58" y="42" width="12" height="65" fill="url(#camoRoof)"/>
+          <rect x="60" y="50" width="8" height="15" rx="3" fill="#ffffff" opacity="0.8" stroke="#334155" stroke-width="1"/>
+        </svg>
       </div>
     </div>
 
@@ -738,7 +657,7 @@ button { cursor: pointer; touch-action: manipulation; }
   </section>
 </main>
 
-<!-- Shopping Cart Modal / Drawer -->
+<!-- Shopping Cart Modal -->
 <div class="overlay" id="cartModal">
   <div class="modal" style="width:min(550px,100%)">
     <div class="modal-head">
@@ -808,10 +727,10 @@ button { cursor: pointer; touch-action: manipulation; }
     </div>
     <div class="modal-body">
       <div class="detail-grid">
-        <div class="viewer detail-viewer" id="inqViewerContainer" style="cursor: zoom-in;" title="ছবিটি বড় করে দেখতে ক্লিক করুন">
+        <div class="viewer detail-viewer" id="inqViewerContainer">
           <img id="inqImg" src="" class="part-visual-img" alt="Part Image">
           <span class="stock" id="inqStock">স্টকে আছে</span>
-          <span id="fullViewBtn" style="position:absolute; bottom:10px; right:10px; background:#1e6b3e; color:#ffffff; font-size:12px; padding:6px 12px; border-radius:14px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.2); transition:0.2s;" onclick="event.stopPropagation(); openLightbox(document.getElementById('inqImg').src);">🔍 পুরো ছবি দেখুন</span>
+          <span id="fullViewBtn" style="position:absolute; bottom:10px; right:10px; background:#1e6b3e; color:#ffffff; font-size:11px; padding:6px 12px; border-radius:14px; font-weight:700; cursor:pointer;" onclick="openLightbox(document.getElementById('inqImg').src)">🔍 বড় করে দেখুন</span>
         </div>
         <div class="detail-info">
           <div>
@@ -865,7 +784,7 @@ button { cursor: pointer; touch-action: manipulation; }
   </div>
 </div>
 
-<!-- Admin Control Center Modal -->
+<!-- Admin Dashboard Modal -->
 <div class="overlay" id="adminModal">
   <div class="modal">
     <div class="modal-head">
@@ -949,7 +868,7 @@ button { cursor: pointer; touch-action: manipulation; }
         <div class="product-list" id="adminProductList"></div>
       </div>
 
-      <!-- Store Settings & Branding Pane -->
+      <!-- Store Settings Pane -->
       <div class="pane" id="paneBranding">
         <form id="brandingForm">
           <div class="form-grid">
@@ -988,10 +907,10 @@ button { cursor: pointer; touch-action: manipulation; }
   </div>
 </div>
 
-<!-- Full View Clean Lightbox Modal (Only Full Image) -->
-<div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()" style="background: rgba(0,0,0,0.95);">
-  <button class="lightbox-close" onclick="closeLightbox()" style="z-index:310; top:15px; right:15px;">✕</button>
-  <img class="lightbox-content" id="lightboxImg" src="" alt="Full View Product Image" onclick="event.stopPropagation()" style="max-width:98vw; max-height:95vh; object-fit:contain; border:none; box-shadow:0 0 20px rgba(0,0,0,0.8);">
+<!-- Full Image Lightbox -->
+<div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img class="lightbox-content" id="lightboxImg" src="" alt="Full View Product Image">
 </div>
 
 <div class="mobile-bottom-bar">
@@ -1012,7 +931,7 @@ button { cursor: pointer; touch-action: manipulation; }
 <div class="toast" id="toast">মেসেজ</div>
 
 <script>
-// Default Company Settings
+// Store Configuration
 let storeConfig = {
   name: 'SADIYA AUTO PARTS',
   sub: 'অটো-রিকশা ও থ্রি-হুইলার যন্ত্রাংশ',
@@ -1022,7 +941,7 @@ let storeConfig = {
   fb: 'https://www.facebook.com/share/1GF5S5Eqcv/'
 };
 
-// Default Products for Sadiya Auto Parts (Auto-Rickshaw & Easybike Spare Parts)
+// Default Full Auto Parts Database
 const defaultProducts = [
   { 
     id: '1', 
@@ -1040,98 +959,87 @@ const defaultProducts = [
     name: '৬০V ইন্টেলিজেন্ট স্মার্ট কন্ট্রোলার', 
     num: 'SAP-CTL-60V', 
     category: 'Motor & Controller', 
-<!-- Supabase Credentials -->
-<script>
-const SUPABASE_URL = 'https://vbztkicwvqruckldwprj.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZienRraWN3dnFydWNrbGR3cHJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI1NzU4NzksImV4cCI6MjEwODE1MTg3OX0.6k4NmY0r1Gz_gjM3xJdAENR6cakwabMOTa6ZnV3ov5s';
+    price: 4800, 
+    compat: '৬০ ভোল্ট অটো-রিকশা', 
+    stock: 'In Stock', 
+    visual: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80', 
+    desc: 'স্মার্ট হিট-সিঙ্ক ওভারলোড প্রোটেকশন সহ সাইলেন্ট কন্ট্রোলার।' 
+  },
+  { 
+    id: '3', 
+    name: 'লিথিয়াম আইয়ন ব্যাটারি প্যাক ৬০V', 
+    num: 'SAP-BAT-60V', 
+    category: 'Battery & Charger', 
+    price: 32000, 
+    compat: 'ইজিবাইক ও মিশুক', 
+    stock: 'In Stock', 
+    visual: 'https://images.unsplash.com/photo-1558441719-f34b55841bef?auto=format&fit=crop&w=600&q=80', 
+    desc: 'দীর্ঘস্থায়ী চার্জ ও দ্রুত চার্জিং ব্যাকআপ সহ শক্তিশালী ব্যাটারি।' 
+  },
+  { 
+    id: '4', 
+    name: 'হাইড্রোলিক ডিস্ক ব্রেক কিট', 
+    num: 'SAP-BRK-HYD', 
+    category: 'Brake & Suspension', 
+    price: 3500, 
+    compat: 'ফ্রন্ট ও রিয়ার হুইল', 
+    stock: 'In Stock', 
+    visual: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80', 
+    desc: 'দ্রুত এবং নিরাপদ ব্রেকিংয়ের জন্য হেভি ডিউটি হাইড্রোলিক ব্রেক সেট।' 
+  },
+  { 
+    id: '5', 
+    name: '৬০V ফাস্ট চার্জার', 
+    num: 'SAP-CHG-60V', 
+    category: 'Battery & Charger', 
+    price: 2800, 
+    compat: 'সকল ৬০V ব্যাটারি', 
+    stock: 'Low Stock', 
+    visual: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=600&q=80', 
+    desc: 'অটো কাট-অফ এবং কুলিং ফ্যান সহ নিরাপদ ফাস্ট চার্জার।' 
+  },
+  { 
+    id: '6', 
+    name: 'হেভি ডিউটি ফ্রন্ট শকার/সাসপেনশন', 
+    num: 'SAP-SUS-FRT', 
+    category: 'Brake & Suspension', 
+    price: 4200, 
+    compat: 'সকল থ্রি-হুইলার', 
+    stock: 'In Stock', 
+    visual: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80', 
+    desc: 'ঝাঁকুনি মুক্ত মসৃণ রাইডের জন্য প্রিমিয়াম স্প্রিং শকার।' 
+  }
+];
 
-let supabaseClient = null;
-let products = [];
+let products = [...defaultProducts];
 let cart = [];
 let orders = [];
 let activeCategory = 'All';
 let isAdmin = false;
-let isLoadingProducts = true;
 
-// Initialize Supabase & Cache
-function initSupabase() {
-  const banner = document.getElementById('dbBanner');
-  
-  // Try loading cached products instantly to prevent slow flash
+// Initialize Storage and Config
+function initApp() {
   const cachedProducts = localStorage.getItem('sap_cached_products');
   if (cachedProducts) {
     try {
       products = JSON.parse(cachedProducts);
-      isLoadingProducts = false;
-      renderProducts();
-      renderAdminProducts();
+    } catch(e) {
+      products = [...defaultProducts];
+    }
+  }
+
+  const cachedConfig = localStorage.getItem('sap_cached_config');
+  if (cachedConfig) {
+    try {
+      storeConfig = JSON.parse(cachedConfig);
     } catch(e){}
   }
 
-  try {
-    if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      banner.style.display = 'none';
-      fetchProductsFromSupabase();
-      fetchOrdersFromSupabase();
-      fetchConfigFromSupabase();
-    } else {
-      if (products.length === 0) products = [...defaultProducts];
-      isLoadingProducts = false;
-      renderProducts();
-    }
-  } catch (e) {
-    console.error("Supabase Error:", e);
-    if (products.length === 0) products = [...defaultProducts];
-    isLoadingProducts = false;
-    renderProducts();
-  }
+  renderFilters();
+  renderProducts();
+  applyBrandingUI();
 }
 
-async function fetchProductsFromSupabase() {
-  if (!supabaseClient) return;
-  try {
-    const { data, error } = await supabaseClient.from('products').select('*');
-    if (!error && data) {
-      if (data.length > 0) {
-        products = data;
-        localStorage.setItem('sap_cached_products', JSON.stringify(data));
-      } else if (products.length === 0) {
-        products = [...defaultProducts];
-      }
-    }
-  } catch (err) {
-    if (products.length === 0) products = [...defaultProducts];
-  } finally {
-    isLoadingProducts = false;
-    renderProducts();
-    renderAdminProducts();
-  }
-}
-
-async function fetchOrdersFromSupabase() {
-  if (!supabaseClient) return;
-  try {
-    const { data, error } = await supabaseClient.from('orders').select('*');
-    if (!error && data) {
-      orders = data;
-      renderAdminOrders();
-    }
-  } catch (err) {}
-}
-
-async function fetchConfigFromSupabase() {
-  if (!supabaseClient) return;
-  try {
-    const { data, error } = await supabaseClient.from('config').select('*').single();
-    if (!error && data) {
-      storeConfig = { ...storeConfig, ...data };
-      applyBrandingUI();
-    }
-  } catch (err) {}
-}
-
-// UI Helpers
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1158,7 +1066,6 @@ function applyBrandingUI() {
     }
   }
 
-  // Links
   const waUrl = `https://wa.me/${storeConfig.wa}`;
   const callUrl = `tel:${storeConfig.phone}`;
   
@@ -1205,15 +1112,6 @@ function renderProducts() {
   const grid = document.getElementById('productGrid');
   const query = document.getElementById('search').value.toLowerCase().trim();
 
-  if (isLoadingProducts && products.length === 0) {
-    grid.innerHTML = `
-      <div class="loading-skeleton">
-        <div class="spinner"></div>
-        <div>পার্টস লোড হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</div>
-      </div>`;
-    return;
-  }
-
   const filtered = products.filter(p => {
     const matchCat = activeCategory === 'All' || p.category === activeCategory;
     const matchSearch = p.name.toLowerCase().includes(query) || p.num.toLowerCase().includes(query) || p.compat.toLowerCase().includes(query);
@@ -1248,28 +1146,9 @@ function renderProducts() {
       </div>
     </div>
   `).join('');
-
-  initScrollReveal();
 }
 
-// Scroll Animation Reveal Function
-function initScrollReveal() {
-  const cards = document.querySelectorAll('.card');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add('reveal');
-        }, index * 80); // Staggered reveal delay
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  cards.forEach(card => observer.observe(card));
-}
-
-// Shopping Cart & Checkout
+// Shopping Cart Actions
 function addToCart(id) {
   const p = products.find(item => item.id == id);
   if (!p) return;
@@ -1351,7 +1230,7 @@ document.getElementById('proceedCheckoutBtn').onclick = () => {
 };
 document.getElementById('checkoutClose').onclick = () => document.getElementById('checkoutModal').classList.remove('show');
 
-document.getElementById('checkoutForm').onsubmit = async (e) => {
+document.getElementById('checkoutForm').onsubmit = (e) => {
   e.preventDefault();
   const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   const newOrder = {
@@ -1360,15 +1239,10 @@ document.getElementById('checkoutForm').onsubmit = async (e) => {
     phone: document.getElementById('cPhone').value,
     address: document.getElementById('cAddress').value,
     payment_method: document.getElementById('cPayment').value,
-    items: JSON.stringify(cart),
+    items: [...cart],
     total_amount: total,
-    status: 'Pending',
-    created_at: new Date().toISOString()
+    created_at: new Date().toLocaleString('bn-BD')
   };
-
-  if (supabaseClient) {
-    await supabaseClient.from('orders').insert([newOrder]);
-  }
 
   orders.unshift(newOrder);
   renderAdminOrders();
@@ -1380,7 +1254,7 @@ document.getElementById('checkoutForm').onsubmit = async (e) => {
   showToast('🎉 আপনার অর্ডার সফলভাবে গ্রহণ করা হয়েছে!');
 };
 
-// Inquiry Modal
+// Detail View & Lightbox
 function openInquiry(id) {
   const p = products.find(item => item.id == id);
   if (!p) return;
@@ -1388,17 +1262,11 @@ function openInquiry(id) {
   document.getElementById('inqCategory').textContent = p.category;
   document.getElementById('inqTitle').textContent = p.name;
   document.getElementById('inqImg').src = p.visual || fallbackImg;
-  document.getElementById('inqImg').onerror = () => document.getElementById('inqImg').src = fallbackImg;
   document.getElementById('inqStock').textContent = p.stock === 'In Stock' ? 'স্টকে আছে' : (p.stock === 'Low Stock' ? 'কম আছে' : 'স্টকে নেই');
   document.getElementById('inqPartNum').textContent = p.num;
   document.getElementById('inqPrice').innerHTML = `৳${Number(p.price).toLocaleString('bn-BD')} <small style="font-size:12px;color:var(--muted)">টাকা</small>`;
   document.getElementById('inqDesc').textContent = p.desc;
   document.getElementById('inqCompat').textContent = p.compat;
-
-  // Setup click event for full view image
-  document.getElementById('inqViewerContainer').onclick = () => {
-    openLightbox(p.visual || fallbackImg);
-  };
 
   document.getElementById('inqAddToCartBtn').onclick = () => {
     addToCart(p.id);
@@ -1413,11 +1281,9 @@ function openInquiry(id) {
 }
 document.getElementById('inqClose').onclick = () => document.getElementById('inquireModal').classList.remove('show');
 
-// Full View Lightbox Functions
 function openLightbox(imgSrc) {
   const lbImg = document.getElementById('lightboxImg');
   lbImg.src = imgSrc;
-  lbImg.onerror = () => { lbImg.src = 'https://placehold.co/800x600/e3f2e7/1e6b3e?text=Auto+Parts'; };
   document.getElementById('lightboxModal').classList.add('show');
 }
 
@@ -1425,9 +1291,11 @@ function closeLightbox() {
   document.getElementById('lightboxModal').classList.remove('show');
 }
 
-// Admin Portal Logic
+// Admin Operations
 document.getElementById('adminOpen').onclick = () => {
   if (isAdmin) {
+    renderAdminProducts();
+    renderAdminOrders();
     document.getElementById('adminModal').classList.add('show');
   } else {
     document.getElementById('authModal').classList.add('show');
@@ -1436,7 +1304,6 @@ document.getElementById('adminOpen').onclick = () => {
 document.getElementById('authClose').onclick = () => document.getElementById('authModal').classList.remove('show');
 document.getElementById('adminClose').onclick = () => document.getElementById('adminModal').classList.remove('show');
 
-// Hidden Admin Authentication
 document.getElementById('authForm').onsubmit = (e) => {
   e.preventDefault();
   const pass = document.getElementById('loginPass').value;
@@ -1444,14 +1311,15 @@ document.getElementById('authForm').onsubmit = (e) => {
     isAdmin = true;
     document.getElementById('userBadge').textContent = '⚡ Admin Mode Active';
     document.getElementById('authModal').classList.remove('show');
+    renderAdminProducts();
+    renderAdminOrders();
     document.getElementById('adminModal').classList.add('show');
-    showToast('Admin Access Granted');
+    showToast('অ্যাডমিন মোড সফলভাবে চালু হয়েছে');
   } else {
     showToast('পাসওয়ার্ড সঠিক নয়!');
   }
 };
 
-// Admin Orders Render
 function renderAdminOrders() {
   const container = document.getElementById('adminOrdersList');
   if (orders.length === 0) {
@@ -1460,17 +1328,11 @@ function renderAdminOrders() {
   }
 
   container.innerHTML = orders.map(o => {
-    let itemsList = [];
-    try {
-      itemsList = typeof o.items === 'string' ? JSON.parse(o.items) : o.items;
-    } catch (e) { itemsList = []; }
-
-    const itemsSummary = itemsList.map(i => `${i.name} (x${i.qty})`).join(', ');
-
+    const itemsSummary = o.items.map(i => `${i.name} (x${i.qty})`).join(', ');
     return `
       <div style="border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; background:#fff;">
         <div style="display:flex; justify-content:space-between; font-weight:800; font-size:14px;">
-          <span>📦 Order #${o.id.toString().slice(-6)}</span>
+          <span>📦 Order #${o.id.slice(-6)}</span>
           <span style="color:var(--green-primary);">৳${Number(o.total_amount).toLocaleString('bn-BD')}</span>
         </div>
         <div style="font-size:12px; margin:6px 0; color:var(--text);">
@@ -1507,7 +1369,6 @@ function renderAdminProducts() {
   `).join('');
 }
 
-// Helper function to handle file upload convert to Base64
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1517,28 +1378,25 @@ function fileToBase64(file) {
   });
 }
 
-// Handle Product Picture Device Upload
 document.getElementById('pVisualFile').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (file) {
     const base64 = await fileToBase64(file);
     document.getElementById('pVisual').value = base64;
-    showToast('প্রোডাক্ট ছবি নির্বাচন করা হয়েছে!');
+    showToast('প্রোডাক্ট ছবি আপলোড সম্পন্ন!');
   }
 });
 
-// Handle Logo Device Upload
 document.getElementById('cfgLogoFile').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (file) {
     const base64 = await fileToBase64(file);
     document.getElementById('cfgLogo').value = base64;
-    showToast('শপের লোগো নির্বাচন করা হয়েছে!');
+    showToast('শপের লোগো ছবি সেট করা হয়েছে!');
   }
 });
 
-// Add/Edit Product
-document.getElementById('productForm').onsubmit = async (e) => {
+document.getElementById('productForm').onsubmit = (e) => {
   e.preventDefault();
   const id = document.getElementById('pId').value || Date.now().toString();
   const newProduct = {
@@ -1560,7 +1418,6 @@ document.getElementById('productForm').onsubmit = async (e) => {
     products.push(newProduct);
   }
 
-  // Update Cache Immediately
   localStorage.setItem('sap_cached_products', JSON.stringify(products));
 
   renderProducts();
@@ -1569,10 +1426,6 @@ document.getElementById('productForm').onsubmit = async (e) => {
   document.getElementById('pId').value = '';
   document.getElementById('pVisual').value = '';
   showToast('প্রোডাক্ট সেভ করা হয়েছে!');
-
-  if (supabaseClient) {
-    await supabaseClient.from('products').upsert([newProduct]);
-  }
 };
 
 function editProduct(id) {
@@ -1594,21 +1447,22 @@ function editProduct(id) {
   document.getElementById('paneAdd').classList.add('active');
 }
 
-async function deleteProduct(id) {
+function deleteProduct(id) {
   if (!confirm('আপনি কি এই প্রোডাক্টটি মুছে ফেলতে চান?')) return;
   products = products.filter(p => p.id != id);
   localStorage.setItem('sap_cached_products', JSON.stringify(products));
   renderProducts();
   renderAdminProducts();
   showToast('প্রোডাক্ট মুছে ফেলা হয়েছে');
-
-  if (supabaseClient) {
-    await supabaseClient.from('products').delete().eq('id', id);
-  }
 }
 
-// Store Settings Form Save
-document.getElementById('brandingForm').onsubmit = async (e) => {
+document.getElementById('resetFormBtn').onclick = () => {
+  document.getElementById('productForm').reset();
+  document.getElementById('pId').value = '';
+  document.getElementById('pVisual').value = '';
+};
+
+document.getElementById('brandingForm').onsubmit = (e) => {
   e.preventDefault();
   storeConfig = {
     name: document.getElementById('cfgName').value,
@@ -1619,15 +1473,11 @@ document.getElementById('brandingForm').onsubmit = async (e) => {
     fb: document.getElementById('cfgFb').value
   };
 
-  if (supabaseClient) {
-    await supabaseClient.from('config').upsert([{ id: 'store_settings', ...storeConfig }]);
-  }
-
+  localStorage.setItem('sap_cached_config', JSON.stringify(storeConfig));
   applyBrandingUI();
   showToast('শপ সেটিংস সফলভাবে আপডেট করা হয়েছে!');
 };
 
-// Tab Navigation
 document.querySelectorAll('.tab').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -1637,14 +1487,15 @@ document.querySelectorAll('.tab').forEach(btn => {
   };
 });
 
-// Search Filter
+// Scroll / Pull Interactive Animation for Auto Rickshaw
+// স্ক্রল করার সময় অটোর মুভমেন্ট বন্ধ করা হয়েছে
+window.addEventListener('scroll', () => {
+  // auto rickshaw stays static on road
+});
+
 document.getElementById('search').oninput = renderProducts;
 
-window.onload = () => {
-  renderFilters();
-  initSupabase();
-  applyBrandingUI();
-};
+window.onload = initApp;
 </script>
 </body>
 </html>
